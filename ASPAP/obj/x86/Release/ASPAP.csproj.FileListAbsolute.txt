@@ -1,0 +1,7 @@
+C:\Users\yar\Documents\Visual Studio 2010\Projects\ASPAP\ASPAP\bin\Release\ASPAP.exe
+C:\Users\yar\Documents\Visual Studio 2010\Projects\ASPAP\ASPAP\bin\Release\ASPAP.pdb
+C:\Users\yar\Documents\Visual Studio 2010\Projects\ASPAP\ASPAP\obj\x86\Release\ASPAP.Form1.resources
+C:\Users\yar\Documents\Visual Studio 2010\Projects\ASPAP\ASPAP\obj\x86\Release\ASPAP.Properties.Resources.resources
+C:\Users\yar\Documents\Visual Studio 2010\Projects\ASPAP\ASPAP\obj\x86\Release\ASPAP.csproj.GenerateResource.Cache
+C:\Users\yar\Documents\Visual Studio 2010\Projects\ASPAP\ASPAP\obj\x86\Release\ASPAP.exe
+C:\Users\yar\Documents\Visual Studio 2010\Projects\ASPAP\ASPAP\obj\x86\Release\ASPAP.pdb
