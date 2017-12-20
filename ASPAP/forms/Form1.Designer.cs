@@ -68,6 +68,7 @@
             this.mainPictureBox = new System.Windows.Forms.PictureBox();
             this.drawRoadButton = new System.Windows.Forms.Button();
             this.trafficLightTimer = new System.Windows.Forms.Timer(this.components);
+            this.animationTimer = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.chooseStripesCountNumericUpDown)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trafficLightPictureBox)).BeginInit();
@@ -416,7 +417,7 @@
             // 
             // drawRoadButton
             // 
-            this.drawRoadButton.Location = new System.Drawing.Point(16, 155);
+            this.drawRoadButton.Location = new System.Drawing.Point(12, 160);
             this.drawRoadButton.Name = "drawRoadButton";
             this.drawRoadButton.Size = new System.Drawing.Size(120, 24);
             this.drawRoadButton.TabIndex = 44;
@@ -429,12 +430,16 @@
             this.trafficLightTimer.Interval = 1;
             this.trafficLightTimer.Tick += new System.EventHandler(this.trafficLightTimer_Tick);
             // 
+            // animationTimer
+            // 
+            this.animationTimer.Tick += new System.EventHandler(this.animationTimer_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(1284, 561);
+            this.ClientSize = new System.Drawing.Size(1284, 557);
             this.Controls.Add(this.drawRoadButton);
             this.Controls.Add(this.mainPictureBox);
             this.Controls.Add(this.label16);
@@ -472,6 +477,7 @@
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "АСПАП";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
             ((System.ComponentModel.ISupportInitialize)(this.chooseStripesCountNumericUpDown)).EndInit();
             this.menuStrip1.ResumeLayout(false);
@@ -524,6 +530,7 @@
         private System.Windows.Forms.PictureBox mainPictureBox;
         private System.Windows.Forms.Button drawRoadButton;
         private System.Windows.Forms.Timer trafficLightTimer;
+        private System.Windows.Forms.Timer animationTimer;
     }
 }
 

@@ -21,7 +21,7 @@ namespace ASPAP.drawingclasses
         private static Image redStateBottom = Image.FromFile("..\\..\\images\\traffic_light_images\\red_light_bottom.png");
 
 
-        private   TrafficLightDrawing() 
+        private TrafficLightDrawing() 
         {
 
         }

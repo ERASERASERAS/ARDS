@@ -47,9 +47,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Car.cs" />
     <Compile Include="constrains\ConstrainsHolder.cs" />
     <Compile Include="constrains\ConstrainsInstaller.cs" />
     <Compile Include="drawingclasses\CarDrawing.cs" />
+    <Compile Include="drawingclasses\LineDrawing.cs" />
     <Compile Include="drawingclasses\RoadDrawing.cs" />
     <Compile Include="drawingclasses\SignDrawing.cs" />
     <Compile Include="drawingclasses\StripeDrawing.cs" />
@@ -59,6 +61,12 @@
     </Compile>
     <Compile Include="forms\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="forms\SetSignForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="forms\SetSignForm.Designer.cs">
+      <DependentUpon>SetSignForm.cs</DependentUpon>
     </Compile>
     <Compile Include="forms\SetTrafficLightForm.cs">
       <SubType>Form</SubType>
@@ -83,8 +91,12 @@
     <Compile Include="random_distributions\UniformDistribution.cs" />
     <Compile Include="Stripe.cs" />
     <Compile Include="TrafficLight.cs" />
+    <Compile Include="Way.cs" />
     <EmbeddedResource Include="forms\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="forms\SetSignForm.resx">
+      <DependentUpon>SetSignForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="forms\SetTrafficLightForm.resx">
       <DependentUpon>SetTrafficLightForm.cs</DependentUpon>
@@ -112,6 +124,10 @@
     <Folder Include="generators\distributions_for_generators\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="images\cars\car1.png" />
+    <Content Include="images\cars\car2.png" />
+    <Content Include="images\cars\car3.png" />
+    <Content Include="images\cars\car4.png" />
     <Content Include="images\not_enabled_sign_icon.png" />
     <Content Include="images\not_enabled_traffic_light_icon.jpeg" />
     <Content Include="images\sign_icon.png" />

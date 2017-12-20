@@ -9,11 +9,19 @@ namespace ASPAP.drawingclasses
 {
     class StripeDrawing
     {
-        
-        
-        public void drawStripe(Graphics g, int coordX, int coordY, int width, int height)
+        public Stripe stripe { get; set; }
+        public int X { get; set; }
+        public int Y { get; set; }
+
+        public StripeDrawing(int coordX, int coordY)
         {
-            g.FillRectangle(new SolidBrush(Color.SlateGray), new Rectangle(coordX, coordY, width, height));
+            X = coordX;
+            Y = coordY;
+        }
+        
+        public void drawStripe(Graphics g, int width, int height)
+        {
+            g.FillRectangle(new SolidBrush(Color.SlateGray), new Rectangle(X, Y, width, height));
         }
 
         public void drawBrokenLine(Graphics g, int coordX1, int coordY1, int coordX2, int coordY2)

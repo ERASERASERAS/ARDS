@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ASPAP
 {
-    class Sign
+    public class Sign
     {
         private int maxSpeed;
 

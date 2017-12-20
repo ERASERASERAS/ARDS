@@ -23,12 +23,15 @@ namespace ASPAP
     {
         private bool trafficLightPictureBoxIsCLicked, signPictureBoxIsClicked = false;
         private bool draggedTrafficLightPictureBoxIsClicked = false;
-        private bool draggeSignPictureBoxIsClicked = false;
+        private bool draggedSignPictureBoxIsClicked = false;
         Point startPoint = new Point();
-        PictureBox topDraggedTrafficLightPictureBox = new PictureBox();
+        
+        PictureBox topDraggedTrafficLightPictureBox = new PictureBox(); //hashmap для sign u trafficLights
         PictureBox bottomTrafficLightPictureBox = new PictureBox();
+        private LinkedList<SignDrawing> signDrawings = new LinkedList<SignDrawing>();
 
         private LinkedList<PictureBox> signsPictureBoxes = new LinkedList<PictureBox>();
+        private SignDrawing signDrawing = new SignDrawing();
 
         public Form1()
         {
@@ -54,7 +57,7 @@ namespace ASPAP
             speedTextBox.Enabled = false;
             chooseSpeedDistributionLawComboBox.Enabled = false;
             DoubleBuffered = true;
-           
+            
 
         }
 
@@ -175,8 +178,7 @@ namespace ASPAP
 
         private void trafficLightPictureBox_Click(object sender, EventArgs e)
         {
-            initTopDraggedTrafficLightPictureBox();
-           
+            initTopDraggedTrafficLightPictureBox();         
         }
 
         
@@ -272,46 +274,96 @@ namespace ASPAP
             Road.getRoad().COUNTOFSTRIPES = (int)chooseStripesCountNumericUpDown.Value;
             switch (chooseCountWayComboBox.SelectedItem.ToString())
             {
+
+                
                 case ("Однонаправленная"):
                     Road.getRoad().COUNTOFWAYS = 1;
+                    Way way = new Way("LEFT");
+                    for (int i = 0; i < Road.getRoad().COUNTOFSTRIPES; i++)
+                    {
+                        way.addStripe(new Stripe());
+                    }
+                    Road.getRoad().WAYS.AddLast(way);
                     break;
                 case ("Двунаправленная"):
                     Road.getRoad().COUNTOFWAYS = 2;
+                    Way leftWay = new Way("LEFT");
+                    Way rightWay = new Way("RIGHT");
+                    LinkedList<Way> ways = new LinkedList<Way>();
+                    ways.AddLast(leftWay);
+                    ways.AddLast(rightWay);
+                    foreach (Way someWay in ways)
+                    {
+                        for (int i = 0; i < Road.getRoad().COUNTOFSTRIPES; i++)
+                        {
+                            someWay.stripes.AddLast(new Stripe());
+                        }
+                    }
+                    Road.getRoad().WAYS = ways;
+                    
                     break;
                 default:
                     break;
+
             }
 
+            Road r = Road.getRoad();
             Road.getRoad().ROADTYPE = chooseRoadTypeComboBox.SelectedItem.ToString();
             ConstrainsInstaller.setConstrains(chooseRoadTypeComboBox.SelectedItem.ToString());
-            new RoadDrawing(mainPictureBox.CreateGraphics(), mainPictureBox.Width, mainPictureBox.Height).draw();
+            //new RoadDrawing(mainPictureBox.CreateGraphics(), mainPictureBox.Width, mainPictureBox.Height).drawRoad();
+            RoadDrawing.getRoadDrawing().drawRoad(mainPictureBox.CreateGraphics(), mainPictureBox.Width, mainPictureBox.Height);
         }
 
-        private void mainPictureBox_DragEnter(object sender, DragEventArgs e)
-        {
-            signPictureBox.Visible = false ;
-        }
+       
 
         private void mainPictureBox_Paint(object sender, PaintEventArgs e)
         {
-            new RoadDrawing(e.Graphics, mainPictureBox.Width, mainPictureBox.Height).draw();
+            RoadDrawing.getRoadDrawing().drawRoad(mainPictureBox.CreateGraphics(), mainPictureBox.Width, mainPictureBox.Height);
+            //new RoadDrawing(e.Graphics, mainPictureBox.Width, mainPictureBox.Height).drawRoad();
           
         }
-
-        
-     
-        
 
         private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
             if (trafficLightPictureBoxIsCLicked)
             {
                 topDraggedTrafficLightPictureBox.Location = e.Location;              
-            }            
+            }
+            if (signPictureBoxIsClicked)
+            {
+                newSignPictureBoxMain.Location = e.Location;
+            }
         }
 
         private void mainPictureBox_MouseMove(object sender, MouseEventArgs e)
         {
+            if (signPictureBoxIsClicked)
+            {
+                newSignPictureBoxMain.Location = new Point(e.X + mainPictureBox.Location.X, e.Y + mainPictureBox.Location.Y);
+            }
+            else
+            {
+                if (draggedSignPictureBoxIsClicked)
+                {
+
+                    newSignPictureBoxMain.Location = new Point(e.X + mainPictureBox.Location.X, newSignPictureBoxMain.Location.Y);
+                    if (newSignPictureBoxMain.Location.X + newSignPictureBoxMain.Width / 10 > mainPictureBox.Width + mainPictureBox.Location.X)
+                    {
+                        SignDrawing removableSignDrawing = null;
+                        foreach (SignDrawing sg in signDrawings)
+                        {
+                            if (sg.COORDINATS.X == newSignPictureBoxMain.Location.X && sg.COORDINATS.Y == newSignPictureBoxMain.Location.Y)
+                            {
+                                removableSignDrawing = sg;
+                            }
+                        }
+                        signDrawings.Remove(removableSignDrawing);
+                        this.Controls.Remove(newSignPictureBoxMain);
+                        signsPictureBoxes.Remove(newSignPictureBoxMain);
+                        draggedSignPictureBoxIsClicked = false;
+                    }
+                }
+            }
             if (trafficLightPictureBoxIsCLicked)
             {
                 topDraggedTrafficLightPictureBox.Location = new Point(e.X + mainPictureBox.Location.X, e.Y + mainPictureBox.Location.Y);
@@ -376,7 +428,7 @@ namespace ASPAP
 
         private void signPictureBox_Click(object sender, EventArgs e)
         {
-
+            initTopDraggedSignPictureBox();
         }
 
         private void initTopDraggedTrafficLightPictureBox()
@@ -437,30 +489,119 @@ namespace ASPAP
             };
             topDraggedTrafficLightPictureBox.DoubleClick += (s, arg) =>
             {
-                new SetTrafficLightForm(false).Visible = true;
+                draggedTrafficLightPictureBoxIsClicked = false;
+                SetTrafficLightForm ssf = new SetTrafficLightForm(false);
+                ssf.ShowDialog();
             };
             this.Controls.Add(topDraggedTrafficLightPictureBox);
             topDraggedTrafficLightPictureBox.BringToFront();
         }
 
-        private void initTopDraggedSignPictureBox() //args PictureBox...
+        PictureBox newSignPictureBoxMain = new PictureBox();
+        Point previousCoordinats = new Point();
+        private void initTopDraggedSignPictureBox() //args PictureBox...?????
+        {
+            startPoint = signPictureBox.Location;
+            PictureBox newSignPictureBox = new PictureBox();
+            signPictureBoxIsClicked = true;
+            newSignPictureBox.Image = signPictureBox.Image;
+            newSignPictureBox.Size = signPictureBox.Size;
+            newSignPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+            newSignPictureBox.Location = signPictureBox.Location;
+           
+            newSignPictureBox.MouseMove += (s, arg) =>
+            {
+                if (signPictureBoxIsClicked)
+                {
+                    newSignPictureBox.Left += signPictureBox.Location.X - startPoint.X;
+                    newSignPictureBox.Top += signPictureBox.Location.Y - startPoint.Y;
+                }
+            };
+            newSignPictureBox.MouseClick += (s, arg) =>
+            {
+                if (signPictureBoxIsClicked)
+                {
+                    //if чтобы положить его сожно только в mainPB
+                    signPictureBoxIsClicked = false;
+                    newSignPictureBox.Height = mainPictureBox.Height / 14;
+                    newSignPictureBox.Width = newSignPictureBox.Height;
+                    SignDrawing addedSignDrawing = new SignDrawing();
+                    addedSignDrawing.COORDINATS = newSignPictureBox.Location;
+                    signDrawings.AddLast(addedSignDrawing); 
+                    SetSignForm setSignForm = new SetSignForm(addedSignDrawing);
+                    setSignForm.ShowDialog();
+                    Road.getRoad().SIGNS.AddLast(addedSignDrawing.SIGN);
+                    addedSignDrawing.getSignGraphic(Graphics.FromImage(newSignPictureBox.Image));
+                    signsPictureBoxes.AddLast(newSignPictureBox);
+                }
+                else
+                {
+                    if (draggedSignPictureBoxIsClicked)
+                    { 
+                        draggedSignPictureBoxIsClicked = false;
+                        PictureBox pb = (PictureBox) s;
+                        foreach (SignDrawing sd in signDrawings)
+                        {
+                            if ((sd.COORDINATS.X == previousCoordinats.X) && (sd.COORDINATS.Y == previousCoordinats.Y))
+                            {
+                                sd.COORDINATS = pb.Location;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        draggedSignPictureBoxIsClicked = true;
+                        newSignPictureBoxMain = signsPictureBoxes.Find((PictureBox)s).Value;
+                        previousCoordinats = newSignPictureBoxMain.Location;
+                    }
+                }
+            };
+            newSignPictureBox.DoubleClick += (s, arg) =>
+            {
+                draggedSignPictureBoxIsClicked = false; 
+                PictureBox pb = (PictureBox)s;
+                foreach (SignDrawing sg in signDrawings)
+                {
+                    if (sg.COORDINATS == pb.Location)
+                    {
+                        SetSignForm ssf = new SetSignForm(sg);
+                        ssf.ShowDialog();
+                        sg.getSignGraphic(pb.CreateGraphics());                       
+                    }
+                }
+
+            };
+
+            newSignPictureBox.Paint += (s, arg) =>
+            {
+                PictureBox pb = (PictureBox)s;
+
+                foreach (SignDrawing sg in signDrawings)
+                {
+                    if (sg.COORDINATS.X == pb.Location.X && sg.COORDINATS.Y == pb.Location.Y)
+                    {
+                        sg.getSignGraphic(Graphics.FromImage(pb.Image));
+                    }                   
+                }
+            };
+
+
+            this.Controls.Add(newSignPictureBox);
+            newSignPictureBoxMain = newSignPictureBox;
+            signPictureBox.Image = Image.FromFile("..\\..\\images\\sign_icon.png");
+            newSignPictureBox.BringToFront();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
         {
 
         }
+
+        private void animationTimer_Tick(object sender, EventArgs e)
+        {
+            mainPictureBox.Invalidate();
+        }
         
-
-
-        
-
-        
-
-        
-
-        
-
-
-
-
      
     }
 }
