@@ -16,12 +16,14 @@ namespace ASPAP.drawingclasses
 
         public CarDrawing(string fileName, Car car)
         {
-            carImage = new Bitmap(Image.FromFile(fileName));
+            carImage = new Bitmap(Image.FromFile(fileName), new Size(50, 25));
         }
 
         public void drawCar(Graphics g)
         {
             g.DrawImage(carImage, new Point(X, Y));
         }
+
+
     }
 }

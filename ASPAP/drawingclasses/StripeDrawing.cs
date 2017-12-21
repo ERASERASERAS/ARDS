@@ -12,11 +12,13 @@ namespace ASPAP.drawingclasses
         public Stripe stripe { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
+        public LinkedList<CarDrawing> carsDrawings { get; set; }
 
         public StripeDrawing(int coordX, int coordY)
         {
             X = coordX;
             Y = coordY;
+            carsDrawings = new LinkedList<CarDrawing>();
         }
         
         public void drawStripe(Graphics g, int width, int height)

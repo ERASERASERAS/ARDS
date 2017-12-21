@@ -69,6 +69,7 @@
             this.drawRoadButton = new System.Windows.Forms.Button();
             this.trafficLightTimer = new System.Windows.Forms.Timer(this.components);
             this.animationTimer = new System.Windows.Forms.Timer(this.components);
+            this.generateCarTimer = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.chooseStripesCountNumericUpDown)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trafficLightPictureBox)).BeginInit();
@@ -434,6 +435,10 @@
             // 
             this.animationTimer.Tick += new System.EventHandler(this.animationTimer_Tick);
             // 
+            // generateCarTimer
+            // 
+            this.generateCarTimer.Tick += new System.EventHandler(this.generateCarTimer_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -531,6 +536,7 @@
         private System.Windows.Forms.Button drawRoadButton;
         private System.Windows.Forms.Timer trafficLightTimer;
         private System.Windows.Forms.Timer animationTimer;
+        private System.Windows.Forms.Timer generateCarTimer;
     }
 }
 

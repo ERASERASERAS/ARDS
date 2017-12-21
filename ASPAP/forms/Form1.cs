@@ -169,7 +169,10 @@ namespace ASPAP
                 topDraggedTrafficLightPictureBox.Image = TrafficLightDrawing.getTrafficLightDrawing().REDSTATETOP;
                 bottomTrafficLightPictureBox.Image = TrafficLightDrawing.getTrafficLightDrawing().REDSTATEBOTTOM;
                 trafficLightTimer.Start();
-            }   
+            }
+            generateCarTimer.Interval = (int) (GeneratorsHolder.getGeneratorsHolder().TIMESGENERATOR.getTime() * 1000);
+            generateCarTimer.Start();
+            animationTimer.Start();
         }
 
 
@@ -318,9 +321,17 @@ namespace ASPAP
 
         private void mainPictureBox_Paint(object sender, PaintEventArgs e)
         {
-            RoadDrawing.getRoadDrawing().drawRoad(mainPictureBox.CreateGraphics(), mainPictureBox.Width, mainPictureBox.Height);
-            //new RoadDrawing(e.Graphics, mainPictureBox.Width, mainPictureBox.Height).drawRoad();
-          
+            //getRoadDrawing().drawRoad(mainPictureBox.CreateGraphics(), mainPictureBox.Width, mainPictureBox.Height);
+            RoadDrawing.getRoadDrawing().drawRoad(e.Graphics, mainPictureBox.Width, mainPictureBox.Height);
+            LinkedList<StripeDrawing> stripeDrawings = RoadDrawing.getRoadDrawing().STRIPEDRAWINGS;
+
+            foreach (StripeDrawing sd in stripeDrawings)
+            {
+                foreach (CarDrawing cd in sd.carsDrawings)
+                {
+                    cd.drawCar(e.Graphics);
+                }
+            }
         }
 
         private void Form1_MouseMove(object sender, MouseEventArgs e)
@@ -599,7 +610,48 @@ namespace ASPAP
 
         private void animationTimer_Tick(object sender, EventArgs e)
         {
+            LinkedList<StripeDrawing> stripeDrawings = RoadDrawing.getRoadDrawing().STRIPEDRAWINGS;
+            foreach (StripeDrawing sd in stripeDrawings)
+            {
+                LinkedList<CarDrawing> carDrawings = sd.carsDrawings;
+                foreach (CarDrawing cd in carDrawings)
+                {
+                    cd.X -= 5;
+                }
+                
+            }
             mainPictureBox.Invalidate();
+        }
+        Random rnd = new Random();
+
+        private void generateCarTimer_Tick(object sender, EventArgs e)
+        {
+           // mainPictureBox.Invalidate();
+            Car newCar = new Car((int) GeneratorsHolder.getGeneratorsHolder().SPEEDSGENERATOR.getSpeed());
+            CarDrawing newCarDrawing = new CarDrawing("..\\..\\images\\cars\\car" + rnd.Next(1,5).ToString() + ".png", newCar);
+            newCarDrawing.car = newCar;
+            if (Road.getRoad().COUNTOFWAYS == 1)
+            {
+                int i = rnd.Next(0, Road.getRoad().COUNTOFSTRIPES);
+                Stripe stripe = Road.getRoad().WAYS.First.Value.stripes.ElementAt(i);
+                foreach (StripeDrawing sd in RoadDrawing.getRoadDrawing().STRIPEDRAWINGS)
+                {
+                    if (stripe.Equals(sd.stripe))
+                    {
+                        sd.carsDrawings.AddFirst(newCarDrawing);
+                        newCarDrawing.X = sd.X + mainPictureBox.Width; newCarDrawing.Y = sd.Y;
+                        mainPictureBox.Invalidate();
+                       // newCarDrawing.carImage.RotateFlip(RotateFlipType.Rotate180FlipNone);
+                    }
+                }
+                Road.getRoad().WAYS.First.Value.stripes.ElementAt(i).addCar(newCar);
+
+            }
+            else
+            {
+            }
+            Road r = Road.getRoad(); ;
+            generateCarTimer.Interval = (int) (GeneratorsHolder.getGeneratorsHolder().TIMESGENERATOR.getTime() * 1000);
         }
         
      

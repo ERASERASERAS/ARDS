@@ -32,6 +32,7 @@ namespace ASPAP
             if (road == null)
             {
                 road = new Road();
+                trafficLights = new LinkedList<TrafficLight>();
             }
             return road;
         }

@@ -11,11 +11,19 @@ namespace ASPAP.drawingclasses
     {
         private static RoadDrawing roadDrawing;
 
-        public static LinkedList<StripeDrawing> stripeDrawings { get; set; }
+        private static LinkedList<StripeDrawing> stripeDrawings { get; set; }
+        public static LinkedList<LineDrawing> lineDrawings { get; set; }
+
 
         private RoadDrawing()
         {
 
+        }
+
+        public LinkedList<StripeDrawing> STRIPEDRAWINGS
+        {
+            get { return stripeDrawings; }
+            set { stripeDrawings = value; }
         }
 
         public static RoadDrawing getRoadDrawing()
@@ -24,36 +32,50 @@ namespace ASPAP.drawingclasses
             {
                 roadDrawing = new RoadDrawing();
                 stripeDrawings = new LinkedList<StripeDrawing>();
+                lineDrawings = new LinkedList<LineDrawing>();
                 
             }
             return roadDrawing;
         }
       
 
-        public void drawRoad(Graphics g, int width, int height) 
+        public void drawRoad(Graphics g, int width, int height)        
         {
-            switch (Road.getRoad().ROADTYPE)
+            if (stripeDrawings.Count == 0)
             {
-                case ("Тоннель"):
-                    drawTonnel(g, width, height);
-                    break;
-                case ("Магистраль"):
-                    drawMagistral(g, width, height);
-                    break;
-                case ("Городская дорога"):
-                    drawCityRoad(g, width, height);
-                    break;
-                case ("Загородная дорога"):
-                    drawCountryRoad(g, width, height);
-                    break;
-                default:
-                    break;
-            }           
+                switch (Road.getRoad().ROADTYPE)
+                {
+                    case ("Тоннель"):
+                        drawTonnel(g, width, height);
+                        break;
+                    case ("Магистраль"):
+                        drawMagistral(g, width, height);
+                        break;
+                    case ("Городская дорога"):
+                        drawCityRoad(g, width, height);
+                        break;
+                    case ("Загородная дорога"):
+                        drawCountryRoad(g, width, height);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                foreach (StripeDrawing sd in stripeDrawings)
+                {
+                    sd.drawStripe(g, width, height / 7);
+                }
+                foreach (LineDrawing ld in lineDrawings)
+                {
+                    ld.drawSomeLine(g);
+                }
+            }
         }
 
         private void drawTonnel(Graphics g, int width, int height)
         {
-            //stripeDrawings.AddLast(
             StripeDrawing sd = new StripeDrawing(0, height / 2 - height / 14); //7 - потому что максимум 6 полос + 2 полосы для знаков и светофоров(эти полосы равны половине от обычных)
             sd.drawStripe(g, width, height / 7);
             sd.stripe = Road.getRoad().WAYS.First.Value.stripes.First.Value;
@@ -64,7 +86,8 @@ namespace ASPAP.drawingclasses
         private void drawMagistral(Graphics g, int width, int height)
         {
             g.Clear(Color.WhiteSmoke);
-            LineDrawing lineDrawing = new LineDrawing();
+            
+            
             if (Road.getRoad().COUNTOFWAYS == 2)
             {
                 for (int i = 0; i < Road.getRoad().COUNTOFSTRIPES; i++)
@@ -79,14 +102,31 @@ namespace ASPAP.drawingclasses
                     stripeDrawings.AddLast(rightWaySD);
                     if (i < Road.getRoad().COUNTOFSTRIPES - 1)
                     {
-                        lineDrawing.drawBrokenLine(g, 0, height / 2 - (i + 1) * height / 7, width, height / 2 - (i + 1) * height / 7);
-                        lineDrawing.drawBrokenLine(g, 0, height / 2 + (i + 1) * height / 7 - 2, width, height / 2 + (i + 1) * height / 7 - 2);
+                        LineDrawing ld1 = new LineDrawing(0, height / 2 - (i + 1) * height / 7, width, height / 2 - (i + 1) * height / 7);
+                        ld1.drawBrokenLine(g);
+                        ld1.whichLine = true;
+                        lineDrawings.AddLast(ld1);
+                        LineDrawing ld2 = new LineDrawing(0, height / 2 + (i + 1) * height / 7 - 2, width, height / 2 + (i + 1) * height / 7 - 2);
+                        ld2.drawBrokenLine(g);
+                        ld2.whichLine = true;
+                        lineDrawings.AddLast(ld2);
+
+                        //lineDrawing.drawBrokenLine(g, 0, height / 2 - (i + 1) * height / 7, width, height / 2 - (i + 1) * height / 7);
+                        //lineDrawing.drawBrokenLine(g, 0, height / 2 + (i + 1) * height / 7 - 2, width, height / 2 + (i + 1) * height / 7 - 2);
                     }
                     
                     
                 }
-                lineDrawing.drawSolidLine(g, 0, height / 2 - 1, width, height / 2 - 1);
-                lineDrawing.drawSolidLine(g, 0, height / 2 + 1, width, height / 2 + 1);
+                //lineDrawing.drawSolidLine(g, 0, height / 2 - 1, width, height / 2 - 1);
+                //lineDrawing.drawSolidLine(g, 0, height / 2 + 1, width, height / 2 + 1);
+                LineDrawing solidLD1 = new LineDrawing(0, height / 2 - 1, width, height / 2 - 1);
+                solidLD1.drawSolidLine(g);
+                solidLD1.whichLine = false;
+                lineDrawings.AddLast(solidLD1);
+                LineDrawing solidLD2 = new LineDrawing(0, height / 2 + 1, width, height / 2 + 1);
+                solidLD2.drawSolidLine(g);
+                solidLD2.whichLine = false;
+                lineDrawings.AddLast(solidLD2);
             }
             else
             {
@@ -100,9 +140,13 @@ namespace ASPAP.drawingclasses
                         sd.drawStripe(g, width, height / 7);
                         if (i < Road.getRoad().COUNTOFSTRIPES  - 1)
                         {
-                            lineDrawing.drawBrokenLine(g, 0, height / 2 + (Road.getRoad().COUNTOFSTRIPES / 2 - 1) * height / 7 - i * height / 7, width,
+                            //lineDrawing.drawBrokenLine(g, 0, height / 2 + (Road.getRoad().COUNTOFSTRIPES / 2 - 1) * height / 7 - i * height / 7, width,
+                            //                                height / 2 + (Road.getRoad().COUNTOFSTRIPES / 2 - 1) * height / 7 - i * height / 7);
+                            LineDrawing ld = new LineDrawing(0, height / 2 + (Road.getRoad().COUNTOFSTRIPES / 2 - 1) * height / 7 - i * height / 7, width,
                                                             height / 2 + (Road.getRoad().COUNTOFSTRIPES / 2 - 1) * height / 7 - i * height / 7);
-                            
+                            ld.drawBrokenLine(g);
+                            ld.whichLine = true;
+                            lineDrawings.AddLast(ld);
                         }
 
                     }
@@ -119,9 +163,16 @@ namespace ASPAP.drawingclasses
                             stripeDrawings.AddLast(sd);
                             if (i < Road.getRoad().COUNTOFSTRIPES - 1)
                             {
-                                lineDrawing.drawBrokenLine(g, 0, height / 2 + (Road.getRoad().COUNTOFSTRIPES - 3) / 2 *
+                                //lineDrawing.drawBrokenLine(g, 0, height / 2 + (Road.getRoad().COUNTOFSTRIPES - 3) / 2 *
+                                //                                    height / 7 + height / 14 - i * height / 7, width, height / 2 + (Road.getRoad().COUNTOFSTRIPES - 3) / 2 *
+                                //                                    height / 7 + height / 14 - i * height / 7);
+                                LineDrawing ld = new LineDrawing(0, height / 2 + (Road.getRoad().COUNTOFSTRIPES - 3) / 2 *
                                                                     height / 7 + height / 14 - i * height / 7, width, height / 2 + (Road.getRoad().COUNTOFSTRIPES - 3) / 2 *
-                                                                    height / 7 + height / 14 - i * height / 7);
+                                                                   height / 7 + height / 14 - i * height / 7);
+                                ld.drawBrokenLine(g);
+                                ld.whichLine = true;
+                                lineDrawings.AddLast(ld);
+
    
                             }
                         }
