@@ -11,6 +11,7 @@ namespace ASPAP
         public  LinkedList<Stripe> stripes { get; set; }
         public string way { get; set; }
 
+        public Way() { } 
 
         public Way(string way)
         {

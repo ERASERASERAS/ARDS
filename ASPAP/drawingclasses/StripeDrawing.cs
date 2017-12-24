@@ -13,6 +13,7 @@ namespace ASPAP.drawingclasses
         public int X { get; set; }
         public int Y { get; set; }
         public LinkedList<CarDrawing> carsDrawings { get; set; }
+        //public int width, heig
 
         public StripeDrawing(int coordX, int coordY)
         {
@@ -26,19 +27,44 @@ namespace ASPAP.drawingclasses
             g.FillRectangle(new SolidBrush(Color.SlateGray), new Rectangle(X, Y, width, height));
         }
 
-        public void drawBrokenLine(Graphics g, int coordX1, int coordY1, int coordX2, int coordY2)
+        
+
+        public bool canGenerateNewCar(int coordX, int k) // k = 1(right), k = -1 (left)
         {
-            int i = 0;
-            while (i + 25 < coordX2)
-            {                
-                g.DrawLine(new Pen(Color.White, 1), i + 5, coordY1, i + 20, coordY2);
-                i += 20;
+            bool result = false;
+            if (carsDrawings.Count > 0)
+            {
+                if (k * (carsDrawings.Last.Value.X - coordX) >= 50)
+                {
+                    result = true;
+                }
             }
+            else
+            {
+                result = true;
+            }
+            return result;
         }
 
-        public void drawSolidLine(Graphics g, int coordX1, int coordY1, int coordX2, int coordY2)
+        public bool firstCarIsLeaved(int coordX)
         {
-            g.DrawLine(new Pen(Color.White, 1), coordX1, coordY1, coordX2, coordY2); 
+            bool result = false;
+            if (this.carsDrawings.First.Value.car.speed < 0)
+            {
+                if (this.carsDrawings.First.Value.X >= coordX)
+                {
+                    result = true;
+                }
+            }
+            else
+            {
+                if (this.carsDrawings.First.Value.X <= coordX)
+                {
+                    result = true;
+                }
+            }
+            
+            return result;
         }
 
 
