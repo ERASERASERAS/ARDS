@@ -616,7 +616,7 @@ namespace ASPAP
                 LinkedList<CarDrawing> carDrawings = sd.carsDrawings;
                 foreach (CarDrawing cd in carDrawings)
                 {
-                    cd.X -= 5;
+                    cd.X -= cd.car.speed;
                 }
                 
             }
@@ -626,31 +626,34 @@ namespace ASPAP
 
         private void generateCarTimer_Tick(object sender, EventArgs e)
         {
-           // mainPictureBox.Invalidate();
             Car newCar = new Car((int) GeneratorsHolder.getGeneratorsHolder().SPEEDSGENERATOR.getSpeed());
             CarDrawing newCarDrawing = new CarDrawing("..\\..\\images\\cars\\car" + rnd.Next(1,5).ToString() + ".png", newCar);
             newCarDrawing.car = newCar;
-            if (Road.getRoad().COUNTOFWAYS == 1)
+            int randowWayNumber = rnd.Next(0, Road.getRoad().COUNTOFWAYS);
+            Way randomWay = Road.getRoad().WAYS.ElementAt(randowWayNumber);
+            int randomStripeNumber = rnd.Next(0, randomWay.stripes.Count);
+            Stripe randomStripe = randomWay.stripes.ElementAt(randomStripeNumber);
+            randomStripe.addCar(newCar);
+            foreach (StripeDrawing sd in RoadDrawing.getRoadDrawing().STRIPEDRAWINGS)
             {
-                int i = rnd.Next(0, Road.getRoad().COUNTOFSTRIPES);
-                Stripe stripe = Road.getRoad().WAYS.First.Value.stripes.ElementAt(i);
-                foreach (StripeDrawing sd in RoadDrawing.getRoadDrawing().STRIPEDRAWINGS)
-                {
-                    if (stripe.Equals(sd.stripe))
+                    if (randomStripe.Equals(sd.stripe))
                     {
-                        sd.carsDrawings.AddFirst(newCarDrawing);
-                        newCarDrawing.X = sd.X + mainPictureBox.Width; newCarDrawing.Y = sd.Y;
+                        sd.carsDrawings.AddLast(newCarDrawing);
+                        if (randomWay.way.Equals("RIGHT"))
+                        {
+                            newCar.speed *= -1;
+                            newCarDrawing.carImage.RotateFlip(RotateFlipType.Rotate180FlipNone);
+                            newCarDrawing.X = sd.X;
+                            newCarDrawing.Y = sd.Y + mainPictureBox.Height / 14;
+                        }
+                        else
+                        {
+                            newCarDrawing.X = sd.X + mainPictureBox.Width;
+                            newCarDrawing.Y = sd.Y + mainPictureBox.Height / 14;
+                        }
                         mainPictureBox.Invalidate();
-                       // newCarDrawing.carImage.RotateFlip(RotateFlipType.Rotate180FlipNone);
                     }
-                }
-                Road.getRoad().WAYS.First.Value.stripes.ElementAt(i).addCar(newCar);
-
-            }
-            else
-            {
-            }
-            Road r = Road.getRoad(); ;
+            } 
             generateCarTimer.Interval = (int) (GeneratorsHolder.getGeneratorsHolder().TIMESGENERATOR.getTime() * 1000);
         }
         
