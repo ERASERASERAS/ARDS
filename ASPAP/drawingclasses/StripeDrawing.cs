@@ -67,6 +67,40 @@ namespace ASPAP.drawingclasses
             return result;
         }
 
+        public void correctSpeeds()
+        {
+            if (this.carsDrawings.Count > 1)
+            {
+                LinkedListNode<CarDrawing> cd = this.carsDrawings.First;
+                    while (cd.Next != null)
+                    {
+                           if (this.carsDrawings.First.Value.car.speed < 0)
+                           {
+                                if (Math.Abs(cd.Next.Value.car.speed) > Math.Abs(cd.Value.car.speed))
+                                {
+                                    if (cd.Value.X - cd.Next.Value.X <= 150)
+                                    {
+                                        cd.Next.Value.car.speed = cd.Value.car.speed;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (cd.Next.Value.car.speed > cd.Value.car.speed)
+                                {
+                                    if (cd.Value.X - cd.Next.Value.X >= -150)
+                                    {
+                                        cd.Next.Value.car.speed = cd.Value.car.speed;
+                                    }
+                                }
+                            }
+                        
+                        cd = cd.Next;
+                    }
+                
+            }
+            
+        }
 
         public void drawControlStripe(Graphics g, int coordX, int coordY, int width, int height)
         {

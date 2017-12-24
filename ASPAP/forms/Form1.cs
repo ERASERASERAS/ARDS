@@ -613,28 +613,28 @@ namespace ASPAP
             LinkedList<StripeDrawing> stripeDrawings = RoadDrawing.getRoadDrawing().STRIPEDRAWINGS;
             foreach (StripeDrawing sd in stripeDrawings)
             {
+
                 LinkedList<CarDrawing> carDrawings = sd.carsDrawings;
                 if (carDrawings.Count > 0)
                 {
                     if (carDrawings.First.Value.car.speed < 0)
                     {
                         if (sd.firstCarIsLeaved(mainPictureBox.Width))
-                        {
-                            
+                        {                            
                             sd.carsDrawings.RemoveFirst();
-                            sd.stripe.CARS.RemoveFirst();MessageBox.Show("UEHALA ПРАВо");
+                            sd.stripe.CARS.RemoveFirst();
                         }
                     }
                     else
                     {
                         if (sd.firstCarIsLeaved(0))
-                        {
-                            
+                        {                           
                             sd.carsDrawings.RemoveFirst();
-                            sd.stripe.CARS.RemoveFirst();MessageBox.Show("UEHALA ЛЕВО");
+                            sd.stripe.CARS.RemoveFirst();
                         }
                     }
                 }
+                sd.correctSpeeds();
                 foreach (CarDrawing cd in carDrawings)
                 {
                     cd.X -= cd.car.speed;
