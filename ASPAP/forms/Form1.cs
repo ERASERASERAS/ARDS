@@ -413,6 +413,7 @@ namespace ASPAP
             TrafficLight tl = Road.getRoad().TRAFFICLIGHTS.First.Value;
             if (tl.REDLIGHT)
             {
+                
                 trafficLightTimer.Interval = tl.REDLIGHTTIME * 1000;
                 topDraggedTrafficLightPictureBox.Image = t.REDSTATETOP;
                 bottomTrafficLightPictureBox.Image = t.REDSTATEBOTTOM;
@@ -421,10 +422,12 @@ namespace ASPAP
             }
             else
             {
+                RoadDrawing.getRoadDrawing().resumeCarsTraffic();
                 trafficLightTimer.Interval = tl.GREENLIGHTTIME * 1000;
                 topDraggedTrafficLightPictureBox.Image = t.GREENSTATETOP;
                 bottomTrafficLightPictureBox.Image = t.GREENSTATEBOTTOM;
                 tl.REDLIGHT = true;
+               
             }
         }
 
@@ -607,10 +610,17 @@ namespace ASPAP
         {
 
         }
-
+        
         private void animationTimer_Tick(object sender, EventArgs e)
         {
             LinkedList<StripeDrawing> stripeDrawings = RoadDrawing.getRoadDrawing().STRIPEDRAWINGS;
+            if (Road.getRoad().TRAFFICLIGHTS.First != null)
+            {
+                if (!Road.getRoad().TRAFFICLIGHTS.First.Value.REDLIGHT)
+                {
+                    RoadDrawing.getRoadDrawing().stopCars(topDraggedTrafficLightPictureBox.Width, mainPictureBox.Location.X);
+                }
+            }
             foreach (StripeDrawing sd in stripeDrawings)
             {
 
@@ -622,7 +632,8 @@ namespace ASPAP
                         if (sd.firstCarIsLeaved(mainPictureBox.Width))
                         {                            
                             sd.carsDrawings.RemoveFirst();
-                            sd.stripe.CARS.RemoveFirst();
+                            sd.stripe.CARS.RemoveFirst(); 
+                            
                         }
                     }
                     else
@@ -631,12 +642,15 @@ namespace ASPAP
                         {                           
                             sd.carsDrawings.RemoveFirst();
                             sd.stripe.CARS.RemoveFirst();
+                            
+                           
                         }
                     }
                 }
                 sd.correctSpeeds();
-                foreach (CarDrawing cd in carDrawings)
+                foreach (CarDrawing cd in carDrawings) //void move() 
                 {
+                    
                     cd.X -= cd.car.speed;
                 }
                 
@@ -653,8 +667,9 @@ namespace ASPAP
             bool canGenerateCarFlag = false;
             Stripe randomStripe = new Stripe(); ;
             Way randomWay = new Way();
-            while (!canGenerateCarFlag) 
-            {
+            //int i = 0;
+            //while (i < Road.getRoad().COUNTOFSTRIPES) 
+            //{
                  int randowWayNumber = rnd.Next(0, Road.getRoad().COUNTOFWAYS);
                  randomWay = Road.getRoad().WAYS.ElementAt(randowWayNumber);
                  int randomStripeNumber = rnd.Next(0, randomWay.stripes.Count);
@@ -670,6 +685,7 @@ namespace ASPAP
                             if (randomWay.way.Equals("RIGHT"))
                             {
                                 newCar.speed *= -1;
+                                newCar.initialSpeed = newCar.speed;
                                 newCarDrawing.carImage.RotateFlip(RotateFlipType.Rotate180FlipNone);
                                 newCarDrawing.X = sd.X;
                                 newCarDrawing.Y = sd.Y + mainPictureBox.Height / 14;
@@ -681,36 +697,20 @@ namespace ASPAP
                             }
                             mainPictureBox.Invalidate();
                          }
-                         //else
-                         //{
-                         //    MessageBox.Show("Нельзя");
-                         //}
                      }
                  }
-            }
+                 //++i;
+            //}
         
             randomStripe.addCar(newCar);
-            //foreach (StripeDrawing sd in RoadDrawing.getRoadDrawing().STRIPEDRAWINGS)
-            //{
-            //        if (randomStripe.Equals(sd.stripe))
-            //        {
-            //            sd.carsDrawings.AddLast(newCarDrawing);
-            //            if (randomWay.way.Equals("RIGHT"))
-            //            {
-            //                newCar.speed *= -1;
-            //                newCarDrawing.carImage.RotateFlip(RotateFlipType.Rotate180FlipNone);
-            //                newCarDrawing.X = sd.X;
-            //                newCarDrawing.Y = sd.Y + mainPictureBox.Height / 14;
-            //            }
-            //            else
-            //            {
-            //                newCarDrawing.X = sd.X + mainPictureBox.Width;
-            //                newCarDrawing.Y = sd.Y + mainPictureBox.Height / 14;
-            //            }
-            //            mainPictureBox.Invalidate();
-            //        }
-            //} 
             generateCarTimer.Interval = (int) (GeneratorsHolder.getGeneratorsHolder().TIMESGENERATOR.getTime() * 1000);
+        }
+
+        private void stopButton_Click(object sender, EventArgs e)
+        {
+            animationTimer.Stop();
+            generateCarTimer.Stop();
+            trafficLightTimer.Stop();
         }
         
      

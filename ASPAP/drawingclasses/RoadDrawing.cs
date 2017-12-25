@@ -191,6 +191,52 @@ namespace ASPAP.drawingclasses
         {
         }
 
+        public void stopCars(int lengthOfTrafficLight, int offsetTrafficLight)  //смещение светофора относительно формы и mainpictureBox
+        {
+            foreach (StripeDrawing sd in stripeDrawings)
+            {
+                
+                foreach (CarDrawing cd in sd.carsDrawings)
+                {
+                    if (cd.car.speed < 0)
+                    {
+                        if ((cd.X < TrafficLightDrawing.getTrafficLightDrawing().COORDINATS.First.Value[1].X - offsetTrafficLight) && 
+                               (cd.X + Math.Abs(cd.car.speed) >= TrafficLightDrawing.getTrafficLightDrawing().COORDINATS.First.Value[1].X - offsetTrafficLight))
+                        {
+                            cd.car.speed = 0;
+                            cd.car.stayByTrafficLight = true;
+                            cd.X = TrafficLightDrawing.getTrafficLightDrawing().COORDINATS.First.Value[1].X - offsetTrafficLight - 50;
+                        }
+                    }
+                    else
+                    {
+                        if ((cd.X > TrafficLightDrawing.getTrafficLightDrawing().COORDINATS.First.Value[0].X + lengthOfTrafficLight - offsetTrafficLight) &&
+                            (cd.X - cd.car.speed <= TrafficLightDrawing.getTrafficLightDrawing().COORDINATS.First.Value[0].X + lengthOfTrafficLight - offsetTrafficLight))
+                        {
+                            cd.car.speed = 0;
+                            cd.car.stayByTrafficLight = true;
+                            cd.X = TrafficLightDrawing.getTrafficLightDrawing().COORDINATS.First.Value[0].X + lengthOfTrafficLight - offsetTrafficLight;
+                        }
+                    }
+                }
+            }
+        }
+
+        public void resumeCarsTraffic()
+        {
+            foreach (StripeDrawing sd in stripeDrawings)
+            {
+                foreach (CarDrawing cd in sd.carsDrawings)
+                {
+                    if (cd.car.stayByTrafficLight)
+                    {
+                        cd.car.stayByTrafficLight = false;
+                        cd.car.speed = cd.car.initialSpeed;
+                    }
+                }
+            }
+        }
+
         
 
         

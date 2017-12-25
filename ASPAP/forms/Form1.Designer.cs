@@ -70,6 +70,7 @@
             this.trafficLightTimer = new System.Windows.Forms.Timer(this.components);
             this.animationTimer = new System.Windows.Forms.Timer(this.components);
             this.generateCarTimer = new System.Windows.Forms.Timer(this.components);
+            this.stopButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.chooseStripesCountNumericUpDown)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trafficLightPictureBox)).BeginInit();
@@ -439,12 +440,24 @@
             // 
             this.generateCarTimer.Tick += new System.EventHandler(this.generateCarTimer_Tick);
             // 
+            // stopButton
+            // 
+            this.stopButton.Location = new System.Drawing.Point(241, 526);
+            this.stopButton.Name = "stopButton";
+            this.stopButton.Size = new System.Drawing.Size(75, 23);
+            this.stopButton.TabIndex = 45;
+            this.stopButton.Text = "Стоп";
+            this.stopButton.UseVisualStyleBackColor = true;
+            this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1284, 557);
+            this.Controls.Add(this.stopButton);
             this.Controls.Add(this.drawRoadButton);
             this.Controls.Add(this.mainPictureBox);
             this.Controls.Add(this.label16);
@@ -478,7 +491,9 @@
             this.Controls.Add(this.label);
             this.Controls.Add(this.chooseRoadTypeComboBox);
             this.Controls.Add(this.menuStrip1);
+            this.DoubleBuffered = true;
             this.MainMenuStrip = this.menuStrip1;
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "АСПАП";
@@ -537,6 +552,7 @@
         private System.Windows.Forms.Timer trafficLightTimer;
         private System.Windows.Forms.Timer animationTimer;
         private System.Windows.Forms.Timer generateCarTimer;
+        private System.Windows.Forms.Button stopButton;
     }
 }
 

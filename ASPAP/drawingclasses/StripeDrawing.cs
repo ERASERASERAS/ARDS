@@ -74,13 +74,17 @@ namespace ASPAP.drawingclasses
                 LinkedListNode<CarDrawing> cd = this.carsDrawings.First;
                     while (cd.Next != null)
                     {
-                           if (this.carsDrawings.First.Value.car.speed < 0)
+                           if (this.carsDrawings.First.Value.car.initialSpeed < 0)
                            {
-                                if (Math.Abs(cd.Next.Value.car.speed) > Math.Abs(cd.Value.car.speed))
+                                if (Math.Abs(cd.Next.Value.car.speed) >= Math.Abs(cd.Value.car.speed))
                                 {
-                                    if (cd.Value.X - cd.Next.Value.X <= 150)
+                                    if (cd.Value.X - cd.Next.Value.X <= 110)
                                     {
                                         cd.Next.Value.car.speed = cd.Value.car.speed;
+                                        if (cd.Value.car.stayByTrafficLight)
+                                        {
+                                            cd.Next.Value.car.stayByTrafficLight = true;
+                                        }
                                     }
                                 }
                             }
@@ -88,9 +92,13 @@ namespace ASPAP.drawingclasses
                             {
                                 if (cd.Next.Value.car.speed > cd.Value.car.speed)
                                 {
-                                    if (cd.Value.X - cd.Next.Value.X >= -150)
+                                    if (cd.Value.X - cd.Next.Value.X >= -110)
                                     {
                                         cd.Next.Value.car.speed = cd.Value.car.speed;
+                                        if (cd.Value.car.stayByTrafficLight)
+                                        {
+                                            cd.Next.Value.car.stayByTrafficLight = true;
+                                        }
                                     }
                                 }
                             }
