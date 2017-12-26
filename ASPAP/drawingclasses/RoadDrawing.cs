@@ -237,7 +237,7 @@ namespace ASPAP.drawingclasses
             }
         }
 
-        public void correctSpeedBySigns(int forDeterminationOfWay, int offset)
+        public void correctSpeedBySigns(int forDeterminationOfWay, int offset) //для двухстороннего движения
         {
             foreach (SignDrawing signDrawing in signDrawings)
             {
@@ -270,6 +270,26 @@ namespace ASPAP.drawingclasses
                 }
             }
            
+        }
+
+        public void correctSpeedBySigns(int offset) // для одностороннего движения
+        {
+            foreach (SignDrawing signDrawing in signDrawings)
+            {
+                foreach(StripeDrawing stripeDrawing in stripeDrawings)
+                {
+                    foreach (CarDrawing carDrawing in stripeDrawing.carsDrawings)
+                    {
+                        if (carDrawing.X > signDrawing.COORDINATS.X - offset && carDrawing.X - carDrawing.car.speed <= signDrawing.COORDINATS.X - offset)
+                        {
+                            if (carDrawing.car.speed > signDrawing.SIGN.MAXSPEED)
+                            {
+                                carDrawing.car.speed = signDrawing.SIGN.MAXSPEED;
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         

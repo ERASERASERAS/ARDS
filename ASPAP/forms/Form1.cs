@@ -672,7 +672,14 @@ namespace ASPAP
                // Road r = Road.getRoad();
                 if (Road.getRoad().SIGNS.Count > 0)
                 {
-                    RoadDrawing.getRoadDrawing().correctSpeedBySigns(mainPictureBox.Height / 2, mainPictureBox.Location.X);
+                    if (Road.getRoad().COUNTOFWAYS == 2)
+                    {
+                        RoadDrawing.getRoadDrawing().correctSpeedBySigns(mainPictureBox.Height / 2, mainPictureBox.Location.X);
+                    }
+                    else
+                    {
+                        RoadDrawing.getRoadDrawing().correctSpeedBySigns(mainPictureBox.Location.X);
+                    }
                 }
                 
             }
