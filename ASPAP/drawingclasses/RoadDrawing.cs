@@ -13,11 +13,14 @@ namespace ASPAP.drawingclasses
 
         private static LinkedList<StripeDrawing> stripeDrawings { get; set; }
         public static LinkedList<LineDrawing> lineDrawings { get; set; }
+        public LinkedList<SignDrawing> signDrawings{ get; set; }
 
 
         private RoadDrawing()
         {
-
+            signDrawings = new LinkedList<SignDrawing>();
+            stripeDrawings = new LinkedList<StripeDrawing>();
+            lineDrawings = new LinkedList<LineDrawing>();
         }
 
         public LinkedList<StripeDrawing> STRIPEDRAWINGS
@@ -31,9 +34,6 @@ namespace ASPAP.drawingclasses
             if (roadDrawing == null)
             {
                 roadDrawing = new RoadDrawing();
-                stripeDrawings = new LinkedList<StripeDrawing>();
-                lineDrawings = new LinkedList<LineDrawing>();
-                
             }
             return roadDrawing;
         }

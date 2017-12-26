@@ -202,6 +202,7 @@ namespace ASPAP
             {
                 chooseTimeDistributionLawComboBox.Enabled = true;
                 timeTextBox.Enabled = false;
+                
             }
         }
 
@@ -276,9 +277,7 @@ namespace ASPAP
         {
             Road.getRoad().COUNTOFSTRIPES = (int)chooseStripesCountNumericUpDown.Value;
             switch (chooseCountWayComboBox.SelectedItem.ToString())
-            {
-
-                
+            {            
                 case ("Однонаправленная"):
                     Road.getRoad().COUNTOFWAYS = 1;
                     Way way = new Way("LEFT");
@@ -361,14 +360,19 @@ namespace ASPAP
                     if (newSignPictureBoxMain.Location.X + newSignPictureBoxMain.Width / 10 > mainPictureBox.Width + mainPictureBox.Location.X)
                     {
                         SignDrawing removableSignDrawing = null;
-                        foreach (SignDrawing sg in signDrawings)
+                        foreach (SignDrawing sg in RoadDrawing.getRoadDrawing().signDrawings)
                         {
-                            if (sg.COORDINATS.X == newSignPictureBoxMain.Location.X && sg.COORDINATS.Y == newSignPictureBoxMain.Location.Y)
+                            if (sg.COORDINATS.X == previousCoordinats.X && sg.COORDINATS.Y == previousCoordinats.Y)
                             {
                                 removableSignDrawing = sg;
                             }
                         }
-                        signDrawings.Remove(removableSignDrawing);
+                        RoadDrawing.getRoadDrawing().signDrawings.Remove(removableSignDrawing);
+                        if (RoadDrawing.getRoadDrawing().signDrawings.Count == 3)
+                        {
+                            signPictureBox.Enabled = true;
+                            signPictureBox.Image = Image.FromFile("..\\..\\images\\sign_icon.png"); 
+                        }
                         this.Controls.Remove(newSignPictureBoxMain);
                         signsPictureBoxes.Remove(newSignPictureBoxMain);
                         draggedSignPictureBoxIsClicked = false;
@@ -536,17 +540,26 @@ namespace ASPAP
                 if (signPictureBoxIsClicked)
                 {
                     //if чтобы положить его сожно только в mainPB
+
+                    
                     signPictureBoxIsClicked = false;
                     newSignPictureBox.Height = mainPictureBox.Height / 14;
                     newSignPictureBox.Width = newSignPictureBox.Height;
                     SignDrawing addedSignDrawing = new SignDrawing();
                     addedSignDrawing.COORDINATS = newSignPictureBox.Location;
-                    signDrawings.AddLast(addedSignDrawing); 
+                    //signDrawings.AddLast(addedSignDrawing);
+                    RoadDrawing.getRoadDrawing().signDrawings.AddLast(addedSignDrawing);
+                    if (RoadDrawing.getRoadDrawing().signDrawings.Count == 4)
+                    {
+                        signPictureBox.Enabled = false;
+                        signPictureBox.Image = Image.FromFile("..\\..\\images\\not_enabled_sign_icon.png");
+                    }
                     SetSignForm setSignForm = new SetSignForm(addedSignDrawing);
                     setSignForm.ShowDialog();
                     Road.getRoad().SIGNS.AddLast(addedSignDrawing.SIGN);
                     addedSignDrawing.getSignGraphic(Graphics.FromImage(newSignPictureBox.Image));
                     signsPictureBoxes.AddLast(newSignPictureBox);
+                    newSignPictureBox.Invalidate(); newSignPictureBox.Invalidate(); newSignPictureBox.Invalidate();
                 }
                 else
                 {
@@ -554,13 +567,14 @@ namespace ASPAP
                     { 
                         draggedSignPictureBoxIsClicked = false;
                         PictureBox pb = (PictureBox) s;
-                        foreach (SignDrawing sd in signDrawings)
+                        foreach (SignDrawing sd in RoadDrawing.getRoadDrawing().signDrawings)
                         {
                             if ((sd.COORDINATS.X == previousCoordinats.X) && (sd.COORDINATS.Y == previousCoordinats.Y))
-                            {
+                            {                                
                                 sd.COORDINATS = pb.Location;
                             }
                         }
+                       
                     }
                     else
                     {
@@ -574,23 +588,25 @@ namespace ASPAP
             {
                 draggedSignPictureBoxIsClicked = false; 
                 PictureBox pb = (PictureBox)s;
-                foreach (SignDrawing sg in signDrawings)
+                foreach (SignDrawing sg in RoadDrawing.getRoadDrawing().signDrawings)
                 {
                     if (sg.COORDINATS == pb.Location)
                     {
                         SetSignForm ssf = new SetSignForm(sg);
                         ssf.ShowDialog();
-                        sg.getSignGraphic(pb.CreateGraphics());                       
-                    }
+                        sg.getSignGraphic(Graphics.FromImage(pb.Image));
+                        pb.Invalidate();
+                   }
                 }
-
+                pb.Invalidate(); pb.Invalidate();
+                newSignPictureBox.Invalidate(); newSignPictureBox.Invalidate(); newSignPictureBox.Invalidate();
             };
 
             newSignPictureBox.Paint += (s, arg) =>
             {
                 PictureBox pb = (PictureBox)s;
 
-                foreach (SignDrawing sg in signDrawings)
+                foreach (SignDrawing sg in RoadDrawing.getRoadDrawing().signDrawings)
                 {
                     if (sg.COORDINATS.X == pb.Location.X && sg.COORDINATS.Y == pb.Location.Y)
                     {
@@ -664,7 +680,6 @@ namespace ASPAP
             Car newCar = new Car((int) GeneratorsHolder.getGeneratorsHolder().SPEEDSGENERATOR.getSpeed());
             CarDrawing newCarDrawing = new CarDrawing("..\\..\\images\\cars\\car" + rnd.Next(1,5).ToString() + ".png", newCar);
             newCarDrawing.car = newCar;
-            bool canGenerateCarFlag = false;
             Stripe randomStripe = new Stripe(); ;
             Way randomWay = new Way();
             //int i = 0;
@@ -680,7 +695,6 @@ namespace ASPAP
                      {
                          if(sd.canGenerateNewCar(randomWay.way.Equals("LEFT") ? mainPictureBox.Width : 0, randomWay.way.Equals("LEFT") ? -1 : 1))
                          {
-                            canGenerateCarFlag = true;
                             sd.carsDrawings.AddLast(newCarDrawing);
                             if (randomWay.way.Equals("RIGHT"))
                             {

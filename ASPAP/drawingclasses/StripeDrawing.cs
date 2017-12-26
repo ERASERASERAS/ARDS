@@ -92,7 +92,7 @@ namespace ASPAP.drawingclasses
                             {
                                 if (cd.Next.Value.car.speed > cd.Value.car.speed)
                                 {
-                                    if (cd.Value.X - cd.Next.Value.X >= -110)
+                                    if (cd.Value.X - cd.Next.Value.X >= -160)
                                     {
                                         cd.Next.Value.car.speed = cd.Value.car.speed;
                                         if (cd.Value.car.stayByTrafficLight)

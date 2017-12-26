@@ -31,7 +31,7 @@ namespace ASPAP.random_distributions
 
         public double getRandomNumber()
         {
-            return Math.Cos(2 * Math.PI * rnd1.NextDouble()) * Math.Sqrt(2 * Math.Log(rnd2.NextDouble())); 
+            return expectedValue +  Math.Cos(2 * Math.PI * rnd1.NextDouble()) * Math.Sqrt(-2 * Math.Log(rnd2.NextDouble())) * Math.Sqrt(dispersion); 
         }
     }
 
