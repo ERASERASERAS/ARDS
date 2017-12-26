@@ -237,6 +237,41 @@ namespace ASPAP.drawingclasses
             }
         }
 
+        public void correctSpeedBySigns(int forDeterminationOfWay, int offset)
+        {
+            foreach (SignDrawing signDrawing in signDrawings)
+            {
+                foreach (StripeDrawing stripeDrawing in stripeDrawings)
+                {
+                    foreach (CarDrawing carDrawing in stripeDrawing.carsDrawings)
+                    {
+                        if (carDrawing.car.speed < 0 && signDrawing.COORDINATS.Y > forDeterminationOfWay)
+                        {
+                            if(carDrawing.X < signDrawing.COORDINATS.X - offset 
+                                && carDrawing.X + Math.Abs(carDrawing.car.speed) >= signDrawing.COORDINATS.X - offset)
+                            {
+                                if (Math.Abs(carDrawing.car.speed) > signDrawing.SIGN.MAXSPEED)
+                                {
+                                    carDrawing.car.speed = signDrawing.SIGN.MAXSPEED * -1;
+                                }
+                            }                            
+                        }
+                        else if (carDrawing.car.speed > 0 && signDrawing.COORDINATS.Y < forDeterminationOfWay)
+                        {
+                            if (carDrawing.X > signDrawing.COORDINATS.X - offset && carDrawing.X - carDrawing.car.speed <= signDrawing.COORDINATS.X - offset)
+                            {
+                                if (carDrawing.car.speed > signDrawing.SIGN.MAXSPEED)
+                                {
+                                    carDrawing.car.speed = signDrawing.SIGN.MAXSPEED;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+           
+        }
+
         
 
         

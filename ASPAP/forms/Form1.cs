@@ -669,6 +669,11 @@ namespace ASPAP
                     
                     cd.X -= cd.car.speed;
                 }
+               // Road r = Road.getRoad();
+                if (Road.getRoad().SIGNS.Count > 0)
+                {
+                    RoadDrawing.getRoadDrawing().correctSpeedBySigns(mainPictureBox.Height / 2, mainPictureBox.Location.X);
+                }
                 
             }
             mainPictureBox.Invalidate();
