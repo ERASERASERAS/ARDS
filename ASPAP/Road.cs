@@ -40,7 +40,7 @@ namespace ASPAP
         public void Init()
         {
             carAppereanceTimer = new Timer { Interval = (int) GeneratorsHolder.getGeneratorsHolder().TIMESGENERATOR.getTime() * 1000 }; 
-            carAppereanceTimer.Tick += (sender, e) => { generateCar() ;};
+            carAppereanceTimer.Tick += (sender, e) => { };
         }
 
         public void Start()
@@ -92,13 +92,62 @@ namespace ASPAP
             set { ways = value; }
         }
 
-        
 
-        public void generateCar()
+        public Stripe getStripeForOvertaking(Stripe stripe, string nameOfWay)
         {
+            Stripe returnedStripe = null;
+            Way wayForOvertaking = getWayForOvertaking(nameOfWay);
+            if(wayForOvertaking != null)
+            {
+                LinkedListNode<Stripe> currentStripeNode = wayForOvertaking.stripes.Find(stripe);
+                if (currentStripeNode.Next != null)
+                {
+                    returnedStripe = currentStripeNode.Next.Value;
+                }
+                else if (currentStripeNode.Previous != null)
+                {
+                    returnedStripe = currentStripeNode.Previous.Value;
+                }
+            }
 
+            return returnedStripe;
         }
-        
+
+        private Way getWayForOvertaking(string nameOfWay)
+        {
+            Way returnedWay = null;
+            if (nameOfWay.Equals("LEFT"))
+            {
+                returnedWay = ways.ElementAt(0);
+            }
+            else if (nameOfWay.Equals("RIGHT"))
+            {
+                returnedWay = ways.ElementAt(1);
+            }
+            return returnedWay;
+        }
+
+        public bool checkOppurtunityForOvertaking()
+        {
+            bool result = false;
+            if (countOfWays == 1)
+            {
+                if(countOfStripes > 1)
+                {
+                    result = true;
+                }
+            }
+            else if (countOfWays == 2)
+            {
+                if(ways.ElementAt(0).stripes.Count > 1)
+                {
+                    result = true;
+                }
+
+            }
+            return result;
+        }
+
         
 
     }

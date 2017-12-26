@@ -646,9 +646,10 @@ namespace ASPAP
                     if (carDrawings.First.Value.car.speed < 0)
                     {
                         if (sd.firstCarIsLeaved(mainPictureBox.Width))
-                        {                            
+                        {
+                            sd.stripe.CARS.Remove(sd.carsDrawings.First.Value.car);
                             sd.carsDrawings.RemoveFirst();
-                            sd.stripe.CARS.RemoveFirst(); 
+                            //sd.stripe.CARS.RemoveFirst(); 
                             
                         }
                     }
@@ -664,6 +665,7 @@ namespace ASPAP
                     }
                 }
                 sd.correctSpeeds();
+                sd.overtaking();
                 foreach (CarDrawing cd in carDrawings) //void move() 
                 {
                     

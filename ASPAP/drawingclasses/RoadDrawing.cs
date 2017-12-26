@@ -292,6 +292,20 @@ namespace ASPAP.drawingclasses
             }
         }
 
+        public StripeDrawing getStripeDrawingForOverTaking(Stripe stripeForOverTaking)
+        {
+            StripeDrawing returnedStripeDrawing = null;
+
+            foreach (StripeDrawing sd in stripeDrawings)
+            {
+                if (sd.stripe.Equals(stripeForOverTaking))
+                {
+                    returnedStripeDrawing = sd;
+                }
+            }
+            return returnedStripeDrawing;
+        }
+
         
 
         

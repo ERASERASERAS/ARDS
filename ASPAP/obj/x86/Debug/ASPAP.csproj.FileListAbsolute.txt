@@ -17,4 +17,3 @@ C:\Users\yar\Documents\Visual Studio 2010\Projects\ASPAP\ASPAP\bin\Debug\ASPAP.e
 C:\Users\yar\Documents\Visual Studio 2010\Projects\ASPAP\ASPAP\bin\Debug\ASPAP.pdb
 C:\Users\yar\Documents\Visual Studio 2010\Projects\ASPAP\ASPAP\obj\x86\Debug\ASPAP.exe
 C:\Users\yar\Documents\Visual Studio 2010\Projects\ASPAP\ASPAP\obj\x86\Debug\ASPAP.pdb
-C:\Users\yar\Documents\Visual Studio 2010\Projects\ASPAP\ASPAP\obj\x86\Debug\ASPAP.csprojResolveAssemblyReference.cache
