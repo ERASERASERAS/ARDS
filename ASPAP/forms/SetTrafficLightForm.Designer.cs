@@ -29,10 +29,12 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.redLightTimeTextBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.greenLightTextBox = new System.Windows.Forms.TextBox();
             this.okButton = new System.Windows.Forms.Button();
+            this.redLightNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.greenLightNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            ((System.ComponentModel.ISupportInitialize)(this.redLightNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.greenLightNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -44,13 +46,6 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Время работы красного сигнала";
             // 
-            // redLightTimeTextBox
-            // 
-            this.redLightTimeTextBox.Location = new System.Drawing.Point(15, 25);
-            this.redLightTimeTextBox.Name = "redLightTimeTextBox";
-            this.redLightTimeTextBox.Size = new System.Drawing.Size(100, 20);
-            this.redLightTimeTextBox.TabIndex = 1;
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -59,13 +54,6 @@
             this.label2.Size = new System.Drawing.Size(174, 13);
             this.label2.TabIndex = 2;
             this.label2.Text = "Время работы зелёного сигнала";
-            // 
-            // greenLightTextBox
-            // 
-            this.greenLightTextBox.Location = new System.Drawing.Point(15, 64);
-            this.greenLightTextBox.Name = "greenLightTextBox";
-            this.greenLightTextBox.Size = new System.Drawing.Size(100, 20);
-            this.greenLightTextBox.TabIndex = 3;
             // 
             // okButton
             // 
@@ -77,19 +65,36 @@
             this.okButton.UseVisualStyleBackColor = true;
             this.okButton.Click += new System.EventHandler(this.okButton_Click);
             // 
+            // redLightNumericUpDown
+            // 
+            this.redLightNumericUpDown.Location = new System.Drawing.Point(15, 25);
+            this.redLightNumericUpDown.Name = "redLightNumericUpDown";
+            this.redLightNumericUpDown.Size = new System.Drawing.Size(120, 20);
+            this.redLightNumericUpDown.TabIndex = 5;
+            // 
+            // greenLightNumericUpDown
+            // 
+            this.greenLightNumericUpDown.Location = new System.Drawing.Point(15, 64);
+            this.greenLightNumericUpDown.Name = "greenLightNumericUpDown";
+            this.greenLightNumericUpDown.Size = new System.Drawing.Size(120, 20);
+            this.greenLightNumericUpDown.TabIndex = 6;
+            // 
             // SetTrafficLightForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(199, 117);
+            this.ClientSize = new System.Drawing.Size(207, 117);
+            this.Controls.Add(this.greenLightNumericUpDown);
+            this.Controls.Add(this.redLightNumericUpDown);
             this.Controls.Add(this.okButton);
-            this.Controls.Add(this.greenLightTextBox);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.redLightTimeTextBox);
             this.Controls.Add(this.label1);
             this.Name = "SetTrafficLightForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "SetTrafficLightForm";
+            this.Load += new System.EventHandler(this.SetTrafficLightForm_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.redLightNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.greenLightNumericUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -98,9 +103,9 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox redLightTimeTextBox;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox greenLightTextBox;
         private System.Windows.Forms.Button okButton;
+        private System.Windows.Forms.NumericUpDown redLightNumericUpDown;
+        private System.Windows.Forms.NumericUpDown greenLightNumericUpDown;
     }
 }

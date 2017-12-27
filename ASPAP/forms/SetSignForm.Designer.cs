@@ -29,26 +29,20 @@
         private void InitializeComponent()
         {
             this.okButton = new System.Windows.Forms.Button();
-            this.constrainTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.chooseSpeedNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            ((System.ComponentModel.ISupportInitialize)(this.chooseSpeedNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // okButton
             // 
-            this.okButton.Location = new System.Drawing.Point(61, 59);
+            this.okButton.Location = new System.Drawing.Point(12, 51);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(65, 24);
             this.okButton.TabIndex = 0;
             this.okButton.Text = "OK";
             this.okButton.UseVisualStyleBackColor = true;
             this.okButton.Click += new System.EventHandler(this.okButton_Click);
-            // 
-            // constrainTextBox
-            // 
-            this.constrainTextBox.Location = new System.Drawing.Point(12, 25);
-            this.constrainTextBox.Name = "constrainTextBox";
-            this.constrainTextBox.Size = new System.Drawing.Size(100, 20);
-            this.constrainTextBox.TabIndex = 1;
             // 
             // label1
             // 
@@ -59,16 +53,30 @@
             this.label1.TabIndex = 2;
             this.label1.Text = "Скоростное ограничение";
             // 
+            // chooseSpeedNumericUpDown
+            // 
+            this.chooseSpeedNumericUpDown.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.chooseSpeedNumericUpDown.Location = new System.Drawing.Point(15, 25);
+            this.chooseSpeedNumericUpDown.Name = "chooseSpeedNumericUpDown";
+            this.chooseSpeedNumericUpDown.Size = new System.Drawing.Size(120, 20);
+            this.chooseSpeedNumericUpDown.TabIndex = 3;
+            // 
             // SetSignForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(184, 95);
+            this.ClientSize = new System.Drawing.Size(174, 95);
+            this.Controls.Add(this.chooseSpeedNumericUpDown);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.constrainTextBox);
             this.Controls.Add(this.okButton);
             this.Name = "SetSignForm";
             this.Text = "SetSignForm";
+            this.Load += new System.EventHandler(this.SetSignForm_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.chooseSpeedNumericUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -77,7 +85,7 @@
         #endregion
 
         private System.Windows.Forms.Button okButton;
-        private System.Windows.Forms.TextBox constrainTextBox;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.NumericUpDown chooseSpeedNumericUpDown;
     }
 }

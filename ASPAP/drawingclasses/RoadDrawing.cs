@@ -87,7 +87,6 @@ namespace ASPAP.drawingclasses
         {
             g.Clear(Color.WhiteSmoke);
             
-            
             if (Road.getRoad().COUNTOFWAYS == 2)
             {
                 for (int i = 0; i < Road.getRoad().COUNTOFSTRIPES; i++)
@@ -185,10 +184,12 @@ namespace ASPAP.drawingclasses
 
         private void drawCityRoad(Graphics g, int width, int height)
         {
+            drawMagistral(g, width, height);
         }
 
         private void drawCountryRoad(Graphics g, int width, int height)
         {
+            drawMagistral(g, width, height);
         }
 
         public void stopCars(int lengthOfTrafficLight, int offsetTrafficLight)  //смещение светофора относительно формы и mainpictureBox
@@ -304,6 +305,19 @@ namespace ASPAP.drawingclasses
                 }
             }
             return returnedStripeDrawing;
+        }
+
+        public void clearRoadDrawing(Graphics g)
+        {
+            lineDrawings.Clear();
+            signDrawings.Clear();
+            foreach (StripeDrawing sd in stripeDrawings)
+            {
+                sd.carsDrawings.Clear();
+            }
+            TrafficLightDrawing.getTrafficLightDrawing().COORDINATS.Clear();
+            stripeDrawings.Clear();
+            g.Clear(Color.WhiteSmoke);
         }
 
         

@@ -71,6 +71,8 @@
             this.animationTimer = new System.Windows.Forms.Timer(this.components);
             this.generateCarTimer = new System.Windows.Forms.Timer(this.components);
             this.stopButton = new System.Windows.Forms.Button();
+            this.resumeButton = new System.Windows.Forms.Button();
+            this.resetButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.chooseStripesCountNumericUpDown)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trafficLightPictureBox)).BeginInit();
@@ -407,7 +409,7 @@
             // 
             // mainPictureBox
             // 
-            this.mainPictureBox.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.mainPictureBox.BackColor = System.Drawing.Color.WhiteSmoke;
             this.mainPictureBox.Location = new System.Drawing.Point(241, 34);
             this.mainPictureBox.Name = "mainPictureBox";
             this.mainPictureBox.Size = new System.Drawing.Size(852, 477);
@@ -442,13 +444,39 @@
             // 
             // stopButton
             // 
+            this.stopButton.Enabled = false;
             this.stopButton.Location = new System.Drawing.Point(241, 526);
             this.stopButton.Name = "stopButton";
             this.stopButton.Size = new System.Drawing.Size(75, 23);
             this.stopButton.TabIndex = 45;
             this.stopButton.Text = "Стоп";
             this.stopButton.UseVisualStyleBackColor = true;
+            this.stopButton.Visible = false;
             this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
+            // 
+            // resumeButton
+            // 
+            this.resumeButton.Enabled = false;
+            this.resumeButton.Location = new System.Drawing.Point(241, 526);
+            this.resumeButton.Name = "resumeButton";
+            this.resumeButton.Size = new System.Drawing.Size(82, 23);
+            this.resumeButton.TabIndex = 46;
+            this.resumeButton.Text = "Продолжить";
+            this.resumeButton.UseVisualStyleBackColor = true;
+            this.resumeButton.Visible = false;
+            this.resumeButton.Click += new System.EventHandler(this.resumeButton_Click);
+            // 
+            // resetButton
+            // 
+            this.resetButton.Enabled = false;
+            this.resetButton.Location = new System.Drawing.Point(357, 526);
+            this.resetButton.Name = "resetButton";
+            this.resetButton.Size = new System.Drawing.Size(79, 23);
+            this.resetButton.TabIndex = 47;
+            this.resetButton.Text = "Сбросить";
+            this.resetButton.UseVisualStyleBackColor = true;
+            this.resetButton.Visible = false;
+            this.resetButton.Click += new System.EventHandler(this.resetButton_Click);
             // 
             // Form1
             // 
@@ -457,6 +485,8 @@
             this.AutoSize = true;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1284, 557);
+            this.Controls.Add(this.resetButton);
+            this.Controls.Add(this.resumeButton);
             this.Controls.Add(this.stopButton);
             this.Controls.Add(this.drawRoadButton);
             this.Controls.Add(this.mainPictureBox);
@@ -494,6 +524,8 @@
             this.DoubleBuffered = true;
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(1300, 596);
+            this.MinimumSize = new System.Drawing.Size(1300, 596);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "АСПАП";
@@ -553,6 +585,8 @@
         private System.Windows.Forms.Timer animationTimer;
         private System.Windows.Forms.Timer generateCarTimer;
         private System.Windows.Forms.Button stopButton;
+        private System.Windows.Forms.Button resumeButton;
+        private System.Windows.Forms.Button resetButton;
     }
 }
 

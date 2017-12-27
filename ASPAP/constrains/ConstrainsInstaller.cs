@@ -12,12 +12,12 @@ namespace ASPAP.constrains
             switch (roadType)
             {
                 case ("Тоннель"):
-                    ConstrainsHolder.getConstrainsHolder().MAXSPEED = 55;
-                    ConstrainsHolder.getConstrainsHolder().MINSPEED = 22;
+                    ConstrainsHolder.getConstrainsHolder().MAXSPEED = 60;
+                    ConstrainsHolder.getConstrainsHolder().MINSPEED = 20;
                     break;
                 case ("Загородная дорога"):
                     ConstrainsHolder.getConstrainsHolder().MAXSPEED = 90;
-                    ConstrainsHolder.getConstrainsHolder().MINSPEED = 40;
+                    ConstrainsHolder.getConstrainsHolder().MINSPEED = 20;
                     break;
                 case ("Городская дорога"):
                     ConstrainsHolder.getConstrainsHolder().MAXSPEED = 60;

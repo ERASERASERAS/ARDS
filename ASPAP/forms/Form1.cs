@@ -26,7 +26,7 @@ namespace ASPAP
         private bool draggedSignPictureBoxIsClicked = false;
         Point startPoint = new Point();
         
-        PictureBox topDraggedTrafficLightPictureBox = new PictureBox(); //hashmap для sign u trafficLights
+        PictureBox topDraggedTrafficLightPictureBox = new PictureBox();
         PictureBox bottomTrafficLightPictureBox = new PictureBox();
         private LinkedList<SignDrawing> signDrawings = new LinkedList<SignDrawing>();
 
@@ -111,7 +111,8 @@ namespace ASPAP
 
         private void startButton_Click(object sender, EventArgs e)
         {
-            
+            stopButton.Enabled = true;
+            stopButton.Visible = true;
             switch(chooseTimeTypeComboBox.SelectedItem.ToString())
             {
                 case("Детерминированный"):
@@ -167,7 +168,11 @@ namespace ASPAP
                 TrafficLight tl = Road.getRoad().TRAFFICLIGHTS.First.Value;
                 trafficLightTimer.Interval = tl.REDLIGHTTIME * 1000;
                 topDraggedTrafficLightPictureBox.Image = TrafficLightDrawing.getTrafficLightDrawing().REDSTATETOP;
-                bottomTrafficLightPictureBox.Image = TrafficLightDrawing.getTrafficLightDrawing().REDSTATEBOTTOM;
+                if (Road.getRoad().COUNTOFWAYS == 2)
+                {
+                    bottomTrafficLightPictureBox.Image = TrafficLightDrawing.getTrafficLightDrawing().REDSTATEBOTTOM;
+                }
+                tl.REDLIGHT = false;
                 trafficLightTimer.Start();
             }
             generateCarTimer.Interval = (int) (GeneratorsHolder.getGeneratorsHolder().TIMESGENERATOR.getTime() * 1000);
@@ -275,6 +280,11 @@ namespace ASPAP
 
         private void drawRoadButton_Click(object sender, EventArgs e)
         {
+            if (Road.getRoad().COUNTOFWAYS > 1)//нарисована ли уже  дорога ?
+            {
+                RoadDrawing.getRoadDrawing().clearRoadDrawing(mainPictureBox.CreateGraphics());
+                Road.getRoad().clearRoad();
+            }                           
             Road.getRoad().COUNTOFSTRIPES = (int)chooseStripesCountNumericUpDown.Value;
             switch (chooseCountWayComboBox.SelectedItem.ToString())
             {            
@@ -389,10 +399,16 @@ namespace ASPAP
                 {
                     
                     topDraggedTrafficLightPictureBox.Location = new Point(e.X + mainPictureBox.Location.X, topDraggedTrafficLightPictureBox.Location.Y);
-                    bottomTrafficLightPictureBox.Location = new Point(e.X + mainPictureBox.Location.X, bottomTrafficLightPictureBox.Location.Y);
-                    if (topDraggedTrafficLightPictureBox.Location.X + topDraggedTrafficLightPictureBox.Width / 10 > mainPictureBox.Width + mainPictureBox.Location.X)
+                    if (Road.getRoad().COUNTOFWAYS == 2)
                     {
-                        this.Controls.Remove(bottomTrafficLightPictureBox);
+                        bottomTrafficLightPictureBox.Location = new Point(e.X + mainPictureBox.Location.X, bottomTrafficLightPictureBox.Location.Y);
+                    }
+                    if (topDraggedTrafficLightPictureBox.Location.X + topDraggedTrafficLightPictureBox.Width / 10 > mainPictureBox.Width + mainPictureBox.Location.X)
+                    {                      
+                        if (Road.getRoad().COUNTOFWAYS == 2)
+                        { 
+                            this.Controls.Remove(bottomTrafficLightPictureBox);
+                        }
                         this.Controls.Remove(topDraggedTrafficLightPictureBox);
                         trafficLightPictureBox.Enabled = true;
                         trafficLightPictureBox.Image = Image.FromFile("..\\..\\images\\traffic_light_icon.jpg");
@@ -471,12 +487,15 @@ namespace ASPAP
                 if (trafficLightPictureBoxIsCLicked)
                 {
                     //if чтобы положить его сожно только в mainPB
-                    bottomTrafficLightPictureBox.Image = TrafficLightDrawing.getTrafficLightDrawing().DEFAULTSTATEBOTTOM;
-                    bottomTrafficLightPictureBox.Size = new Size(topDraggedTrafficLightPictureBox.Width * 2, mainPictureBox.Height / 14);
-                    bottomTrafficLightPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
-                    bottomTrafficLightPictureBox.Location = new Point(topDraggedTrafficLightPictureBox.Location.X, mainPictureBox.Height - topDraggedTrafficLightPictureBox.Location.Y + bottomTrafficLightPictureBox.Height);
-                    this.Controls.Add(bottomTrafficLightPictureBox);
-                    bottomTrafficLightPictureBox.BringToFront();
+                    if (Road.getRoad().COUNTOFWAYS == 2)
+                    {
+                        bottomTrafficLightPictureBox.Image = TrafficLightDrawing.getTrafficLightDrawing().DEFAULTSTATEBOTTOM;
+                        bottomTrafficLightPictureBox.Size = new Size(topDraggedTrafficLightPictureBox.Width * 2, mainPictureBox.Height / 14);
+                        bottomTrafficLightPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+                        bottomTrafficLightPictureBox.Location = new Point(topDraggedTrafficLightPictureBox.Location.X, mainPictureBox.Height - topDraggedTrafficLightPictureBox.Location.Y + bottomTrafficLightPictureBox.Height);
+                        this.Controls.Add(bottomTrafficLightPictureBox);
+                        bottomTrafficLightPictureBox.BringToFront();
+                    }
                     trafficLightPictureBoxIsCLicked = false;
                     trafficLightPictureBox.Enabled = false;
                     trafficLightPictureBox.Image = Image.FromFile("..\\..\\images\\not_enabled_traffic_light_icon.jpeg");
@@ -526,6 +545,7 @@ namespace ASPAP
             newSignPictureBox.Size = signPictureBox.Size;
             newSignPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
             newSignPictureBox.Location = signPictureBox.Location;
+            newSignPictureBox.BackColor = Color.WhiteSmoke;
            
             newSignPictureBox.MouseMove += (s, arg) =>
             {
@@ -739,6 +759,56 @@ namespace ASPAP
             animationTimer.Stop();
             generateCarTimer.Stop();
             trafficLightTimer.Stop();
+            resumeButton.Enabled = true;
+            resumeButton.Visible = true;
+            stopButton.Enabled = false;
+            stopButton.Visible = false;
+            resetButton.Enabled = true;
+            resetButton.Visible = true;
+        }
+
+        private void resumeButton_Click(object sender, EventArgs e)
+        {
+            animationTimer.Start();
+            if (Road.getRoad().TRAFFICLIGHTS.Count > 0)
+            {
+                trafficLightTimer.Start();
+            }
+            generateCarTimer.Start();
+            resumeButton.Enabled = false;
+            resumeButton.Visible = false;
+            stopButton.Enabled = true;
+            stopButton.Visible = true;
+            resetButton.Enabled = false;
+            resetButton.Visible = false;
+        }
+
+        private void resetButton_Click(object sender, EventArgs e)
+        {
+            if (Road.getRoad().TRAFFICLIGHTS.Count > 0)
+            {
+                this.Controls.Remove(topDraggedTrafficLightPictureBox);
+                if (Road.getRoad().COUNTOFWAYS == 2)
+                {
+                    this.Controls.Remove(bottomTrafficLightPictureBox);
+                }
+                trafficLightPictureBox.Enabled = true;
+                trafficLightPictureBox.Image = Image.FromFile("..\\..\\images\\traffic_light_icon.jpg");
+            }
+            foreach (PictureBox pb in signsPictureBoxes)
+            {
+                this.Controls.Remove(pb);
+            }
+            //Road.getRoad().clearRoad();
+            RoadDrawing.getRoadDrawing().clearRoadDrawing(mainPictureBox.CreateGraphics());
+            resetButton.Enabled = false;
+            resetButton.Visible = false;
+            stopButton.Enabled = false;
+            stopButton.Visible = false;
+            resumeButton.Enabled = false;
+            resumeButton.Visible = false;
+            
+            
         }
         
      

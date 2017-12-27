@@ -148,6 +148,15 @@ namespace ASPAP
             return result;
         }
 
+        public void clearRoad()
+        {
+            trafficLights.Clear();
+            signs.Clear();
+            ways.Clear();
+        }
+
+       
+
         
 
     }

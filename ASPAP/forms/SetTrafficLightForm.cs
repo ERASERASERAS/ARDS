@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using ASPAP.constrains;
 
 namespace ASPAP.forms
 {
@@ -22,16 +23,25 @@ namespace ASPAP.forms
         {
             if (firstTime)
             {
-                Road.getRoad().TRAFFICLIGHTS.AddLast(new TrafficLight(Int32.Parse(redLightTimeTextBox.Text),
-                                                        Int32.Parse(greenLightTextBox.Text)));// добавление наверное в другом месте. а моет и вообще контроллеры реализовывать(
+                Road.getRoad().TRAFFICLIGHTS.AddLast(new TrafficLight((int) redLightNumericUpDown.Value, (int) greenLightNumericUpDown.Value));// добавление наверное в другом месте. а моет и вообще контроллеры реализовывать(
             }
             else
             {
                 TrafficLight tl = Road.getRoad().TRAFFICLIGHTS.Last.Value;
-                tl.GREENLIGHTTIME = Int32.Parse(greenLightTextBox.Text);
-                tl.REDLIGHTTIME = Int32.Parse(redLightTimeTextBox.Text);
+                tl.GREENLIGHTTIME = (int)greenLightNumericUpDown.Value;
+                tl.REDLIGHTTIME = (int) redLightNumericUpDown.Value;
             }
             this.Close();
+        }
+
+        private void SetTrafficLightForm_Load(object sender, EventArgs e)
+        {
+            greenLightNumericUpDown.Minimum = ConstrainsHolder.getConstrainsHolder().MINGREENLIGHTTIME;
+            greenLightNumericUpDown.Value = greenLightNumericUpDown.Minimum;
+            greenLightNumericUpDown.Maximum = ConstrainsHolder.getConstrainsHolder().MAXGREENLIGHTTIME;
+            redLightNumericUpDown.Minimum = ConstrainsHolder.getConstrainsHolder().MINREDLIGHTTIME;
+            redLightNumericUpDown.Value = redLightNumericUpDown.Minimum;
+            redLightNumericUpDown.Maximum = ConstrainsHolder.getConstrainsHolder().MAXREDLIGHTTIME;
         }
     }
 }
