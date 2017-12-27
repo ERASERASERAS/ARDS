@@ -9,12 +9,20 @@ namespace ASPAP.constrains
     {
         private static ConstrainsHolder constrainsHolder;
         private static int maxSpeed, minSpeed;
-        private static int maxTime = 10000; // в миллисекундах
-        private static int minTime = 1000;
+        private static int maxTime = 10; // в миллисекундах
+        private static int minTime = 1;
         private static int minRedLightTime = 5;
         private static int maxRedLightTime = 15;
         private static int minGreenLightTime = 5;
         private static int maxGreenLightTme = 30;
+        private static int aForTime = 1;
+        private static int bForTime = 10;
+        private static int aForSpeed, bForSpeed;
+        private static double minExpParForTime =  0.1;
+        private static double maxExpParForTime = 1;
+        private static double minExpParForSpeed = 0.01;
+        private static double maxExpParForSpeed = 0.04;
+
 
         private ConstrainsHolder() {}
 
@@ -25,6 +33,18 @@ namespace ASPAP.constrains
                 constrainsHolder = new ConstrainsHolder();
             }
             return constrainsHolder;
+        }
+
+        public int MINTIME
+        {
+            get { return minTime; }
+            set { minTime = value; }
+        }
+
+        public int MAXTIME
+        {
+            get { return maxTime; }
+            set { maxTime = value; }
         }
 
         public int  MAXSPEED
@@ -62,6 +82,55 @@ namespace ASPAP.constrains
             get { return maxGreenLightTme; }
             set { maxGreenLightTme = value; }
         }
+
+        public int AFORTIME
+        {
+            get { return aForTime; }
+            set { aForTime = value; }
+        }
+
+        public int BFORTIME
+        {
+            get { return bForTime; }
+            set { bForTime = value; }
+        }
+
+        public int AFORSPEED
+        {
+            get { return aForSpeed; }
+            set { aForSpeed = value; }
+        }
+
+        public int BFORSPEED
+        {
+            get { return bForSpeed; }
+            set { bForTime = value; }
+        }
+
+        public double MINEXPPARFORTIME
+        {
+            get { return minExpParForTime; }
+            set { minExpParForTime = value;  }
+        }
+
+        public double MAXEXPPARTOFTIME
+        {
+            get { return maxExpParForTime; }
+            set { maxExpParForTime = value; }
+        }
+
+        public double MINEXPPAROFSPEED
+        {
+            get { return minExpParForSpeed; }
+            set { minExpParForSpeed = value; }
+        }
+
+        public double MAXEXPPAROFSPEED
+        {
+            get { return maxExpParForSpeed; }
+            set { maxExpParForSpeed = value; }
+        }
+
        
 
     }

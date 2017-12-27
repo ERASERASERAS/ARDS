@@ -40,18 +40,25 @@ namespace ASPAP
             chooseRoadTypeComboBox.Items.Add("Магистраль");
             chooseRoadTypeComboBox.Items.Add("Загородная дорога");
             chooseRoadTypeComboBox.Items.Add("Городская дорога");
+            chooseRoadTypeComboBox.SelectedIndex = 1;
             chooseCountWayComboBox.Items.Add("Однонаправленная");
             chooseCountWayComboBox.Items.Add("Двунаправленная");
+            chooseCountWayComboBox.SelectedIndex = 1;
             chooseTimeTypeComboBox.Items.Add("Детерминированный");
             chooseTimeTypeComboBox.Items.Add("Случайный");
+            //chooseTimeTypeComboBox.SelectedIndex = 1;
             chooseSpeedTypeComboBox.Items.Add("Детерминированный");
             chooseSpeedTypeComboBox.Items.Add("Случайный");
+            //chooseSpeedTypeComboBox.SelectedIndex = 1;
+            //chooseSpeedTypeComboBox.SelectedItem = chooseSpeedTypeComboBox.Items[0];
             chooseTimeDistributionLawComboBox.Items.Add("Нормальный");
             chooseTimeDistributionLawComboBox.Items.Add("Показательный");
             chooseTimeDistributionLawComboBox.Items.Add("Равномерный");
+            //chooseTimeDistributionLawComboBox.SelectedIndex = 1;
             chooseSpeedDistributionLawComboBox.Items.Add("Нормальный");
             chooseSpeedDistributionLawComboBox.Items.Add("Показательный");
             chooseSpeedDistributionLawComboBox.Items.Add("Равномерный");
+            //chooseSpeedDistributionLawComboBox.SelectedIndex = 0;
             timeTextBox.Enabled = false;
             chooseTimeDistributionLawComboBox.Enabled = false;
             speedTextBox.Enabled = false;
@@ -111,73 +118,76 @@ namespace ASPAP
 
         private void startButton_Click(object sender, EventArgs e)
         {
-            stopButton.Enabled = true;
-            stopButton.Visible = true;
-            switch(chooseTimeTypeComboBox.SelectedItem.ToString())
+            if (checkTimeParamsForException() && checkSpeedParamsForExceptions())
             {
-                case("Детерминированный"):
-                    GeneratorsHolder.getGeneratorsHolder().TIMESGENERATOR = new DeterministicTimeGenerator(Double.Parse(timeTextBox.Text));
-                    break;
-
-                case("Случайный"):
-                    if(chooseTimeDistributionLawComboBox.SelectedItem.ToString().Equals("Показательный"))
-                    {
-                        GeneratorsHolder.getGeneratorsHolder().TIMESGENERATOR = new RandomTimeGenerator(new ExponentialDistribution(Double.Parse(timesFirstParTextBox.Text)));
-                    }
-                    else if(chooseTimeDistributionLawComboBox.SelectedItem.ToString().Equals("Равномерный"))
-                    {
-                        GeneratorsHolder.getGeneratorsHolder().TIMESGENERATOR = new RandomTimeGenerator(new UniformDistribution(Double.Parse(timesFirstParTextBox.Text), Double.Parse(timesSecondParTextBox.Text)));
-                    }
-                    else if (chooseTimeDistributionLawComboBox.SelectedItem.ToString().Equals("Нормальный"))
-                    {
-                        GeneratorsHolder.getGeneratorsHolder().TIMESGENERATOR = new RandomTimeGenerator(new NormalDistribution(Double.Parse(timesFirstParTextBox.Text) , Double.Parse(timesSecondParTextBox.Text)));
-                    }
-                    break;
-
-                default:
-                    break;
-            }
-
-            switch (chooseSpeedTypeComboBox.SelectedItem.ToString())
-            {
-                case("Детерминированный"):
-                    GeneratorsHolder.getGeneratorsHolder().SPEEDSGENERATOR = new DeterministicSpeedGenerator(Double.Parse(speedTextBox.Text));
-                    break;
-
-                case("Случайный"):
-                    if(chooseSpeedDistributionLawComboBox.SelectedItem.ToString().Equals("Показательный"))
-                    {
-                        GeneratorsHolder.getGeneratorsHolder().SPEEDSGENERATOR = new RandomSpeedGenerator(new ExponentialDistribution(Double.Parse(speedsFirstParTextBox.Text)));
-                    }
-                    else if(chooseSpeedDistributionLawComboBox.SelectedItem.ToString().Equals("Равномерный"))
-                    {
-                        GeneratorsHolder.getGeneratorsHolder().SPEEDSGENERATOR = new RandomSpeedGenerator(new UniformDistribution(Double.Parse(speedsFirstParTextBox.Text), Double.Parse(speedsSecondParTextBox.Text)));
-                    }
-                    else if (chooseSpeedDistributionLawComboBox.SelectedItem.ToString().Equals("Нормальный"))
-                    {
-                        GeneratorsHolder.getGeneratorsHolder().SPEEDSGENERATOR = new RandomSpeedGenerator(new NormalDistribution(Double.Parse(speedsFirstParTextBox.Text), Double.Parse(speedsSecondParTextBox.Text)));
-                    }
-                    break;
-
-                default:
-                    break;
-
-            }
-            if (Road.getRoad().TRAFFICLIGHTS.Count > 0)
-            {
-                TrafficLight tl = Road.getRoad().TRAFFICLIGHTS.First.Value;
-                trafficLightTimer.Interval = tl.REDLIGHTTIME * 1000;
-                topDraggedTrafficLightPictureBox.Image = TrafficLightDrawing.getTrafficLightDrawing().REDSTATETOP;
-                if (Road.getRoad().COUNTOFWAYS == 2)
+                stopButton.Enabled = true;
+                stopButton.Visible = true;
+                switch (chooseTimeTypeComboBox.SelectedItem.ToString())
                 {
-                    bottomTrafficLightPictureBox.Image = TrafficLightDrawing.getTrafficLightDrawing().REDSTATEBOTTOM;
+                    case ("Детерминированный"):
+                        GeneratorsHolder.getGeneratorsHolder().TIMESGENERATOR = new DeterministicTimeGenerator(Double.Parse(timeTextBox.Text));
+                        break;
+
+                    case ("Случайный"):
+                        if (chooseTimeDistributionLawComboBox.SelectedItem.ToString().Equals("Показательный"))
+                        {
+                            GeneratorsHolder.getGeneratorsHolder().TIMESGENERATOR = new RandomTimeGenerator(new ExponentialDistribution(Double.Parse(timesFirstParTextBox.Text)));
+                        }
+                        else if (chooseTimeDistributionLawComboBox.SelectedItem.ToString().Equals("Равномерный"))
+                        {
+                            GeneratorsHolder.getGeneratorsHolder().TIMESGENERATOR = new RandomTimeGenerator(new UniformDistribution(Double.Parse(timesFirstParTextBox.Text), Double.Parse(timesSecondParTextBox.Text)));
+                        }
+                        else if (chooseTimeDistributionLawComboBox.SelectedItem.ToString().Equals("Нормальный"))
+                        {
+                            GeneratorsHolder.getGeneratorsHolder().TIMESGENERATOR = new RandomTimeGenerator(new NormalDistribution(Double.Parse(timesFirstParTextBox.Text), Double.Parse(timesSecondParTextBox.Text)));
+                        }
+                        break;
+
+                    default:
+                        break;
                 }
-                tl.REDLIGHT = false;
-                trafficLightTimer.Start();
+
+                switch (chooseSpeedTypeComboBox.SelectedItem.ToString())
+                {
+                    case ("Детерминированный"):
+                        GeneratorsHolder.getGeneratorsHolder().SPEEDSGENERATOR = new DeterministicSpeedGenerator(Double.Parse(speedTextBox.Text));
+                        break;
+
+                    case ("Случайный"):
+                        if (chooseSpeedDistributionLawComboBox.SelectedItem.ToString().Equals("Показательный"))
+                        {
+                            GeneratorsHolder.getGeneratorsHolder().SPEEDSGENERATOR = new RandomSpeedGenerator(new ExponentialDistribution(Double.Parse(speedsFirstParTextBox.Text)));
+                        }
+                        else if (chooseSpeedDistributionLawComboBox.SelectedItem.ToString().Equals("Равномерный"))
+                        {
+                            GeneratorsHolder.getGeneratorsHolder().SPEEDSGENERATOR = new RandomSpeedGenerator(new UniformDistribution(Double.Parse(speedsFirstParTextBox.Text), Double.Parse(speedsSecondParTextBox.Text)));
+                        }
+                        else if (chooseSpeedDistributionLawComboBox.SelectedItem.ToString().Equals("Нормальный"))
+                        {
+                            GeneratorsHolder.getGeneratorsHolder().SPEEDSGENERATOR = new RandomSpeedGenerator(new NormalDistribution(Double.Parse(speedsFirstParTextBox.Text), Double.Parse(speedsSecondParTextBox.Text)));
+                        }
+                        break;
+
+                    default:
+                        break;
+
+                }
+                if (Road.getRoad().TRAFFICLIGHTS.Count > 0)
+                {
+                    TrafficLight tl = Road.getRoad().TRAFFICLIGHTS.First.Value;
+                    trafficLightTimer.Interval = tl.REDLIGHTTIME * 1000;
+                    topDraggedTrafficLightPictureBox.Image = TrafficLightDrawing.getTrafficLightDrawing().REDSTATETOP;
+                    if (Road.getRoad().COUNTOFWAYS == 2)
+                    {
+                        bottomTrafficLightPictureBox.Image = TrafficLightDrawing.getTrafficLightDrawing().REDSTATEBOTTOM;
+                    }
+                    tl.REDLIGHT = false;
+                    trafficLightTimer.Start();
+                }
+                generateCarTimer.Interval = (int)(GeneratorsHolder.getGeneratorsHolder().TIMESGENERATOR.getTime() * 1000);
+                generateCarTimer.Start();
+                animationTimer.Start();
             }
-            generateCarTimer.Interval = (int) (GeneratorsHolder.getGeneratorsHolder().TIMESGENERATOR.getTime() * 1000);
-            generateCarTimer.Start();
-            animationTimer.Start();
         }
 
 
@@ -188,6 +198,11 @@ namespace ASPAP
         {
             initTopDraggedTrafficLightPictureBox();         
         }
+
+        private void checkForExceptions()
+        {
+        }
+
 
         
         
@@ -410,6 +425,9 @@ namespace ASPAP
                             this.Controls.Remove(bottomTrafficLightPictureBox);
                         }
                         this.Controls.Remove(topDraggedTrafficLightPictureBox);
+                        TrafficLightDrawing.getTrafficLightDrawing().COORDINATS.Clear();
+                        Road.getRoad().TRAFFICLIGHTS.Clear();
+                        trafficLightTimer.Stop();
                         trafficLightPictureBox.Enabled = true;
                         trafficLightPictureBox.Image = Image.FromFile("..\\..\\images\\traffic_light_icon.jpg");
                         draggedTrafficLightPictureBoxIsClicked = false;
@@ -810,7 +828,178 @@ namespace ASPAP
             
             
         }
-        
+
+        private bool checkTimeParamsForException()
+        {
+            bool result = true;
+            int outer = 5;
+            double outerD = 1.5;
+            if (chooseTimeTypeComboBox.SelectedIndex == 0)
+            {
+                if (!Int32.TryParse(timeTextBox.Text, out outer))
+                {
+                    MessageBox.Show("В параметр времени нужно ввести целое числовое значение");
+                    result = false;
+                }
+                else
+                {
+                    if (Int32.Parse(timeTextBox.Text) > ConstrainsHolder.getConstrainsHolder().MAXTIME ||
+                             Int32.Parse(timeTextBox.Text) < ConstrainsHolder.getConstrainsHolder().MINTIME)
+                    {
+                        MessageBox.Show("Детерминированное время машин должно быть от 1 до 10");
+                        result = false;
+                    }
+                }
+            }
+            else if (chooseTimeTypeComboBox.SelectedIndex == 1)
+            {
+                if (chooseTimeDistributionLawComboBox.SelectedIndex == 0)
+                {
+                    if (!Double.TryParse(timesFirstParTextBox.Text, out outerD))
+                    {
+                        result = false;
+                        MessageBox.Show("Значение математического ожидания для нормального распределения времени машин имеет недопустимое значение");
+                    }
+                    else if (!Double.TryParse(timesSecondParTextBox.Text, out outerD))
+                    {
+                        result = false;
+                        MessageBox.Show("Значение дисперсии для нормального распределения времени появления машин имеет недопустимое значение");
+                    }
+                }
+                else if (chooseTimeDistributionLawComboBox.SelectedIndex == 1)
+                {
+                    if (!Double.TryParse(timesFirstParTextBox.Text, out outerD))
+                    {
+                        MessageBox.Show("Недопустимое значение параметра показательного распределения для времени");
+                        result = false;
+                    }
+                    else
+                    {
+                        if (Double.Parse(timesFirstParTextBox.Text) > ConstrainsHolder.getConstrainsHolder().MAXEXPPARTOFTIME ||
+                               Double.Parse(timesFirstParTextBox.Text) < ConstrainsHolder.getConstrainsHolder().MINEXPPARFORTIME)
+                        {
+                            result = false;
+                            MessageBox.Show("Значения параметра показательного распределения для времени должны находиться в интвервале [0,1;1]");
+                        }
+                    }
+                }
+                else if (chooseTimeDistributionLawComboBox.SelectedIndex == 2)
+                {
+                    if (!Int32.TryParse(timesFirstParTextBox.Text, out outer))
+                    {
+                        result = false;
+                        MessageBox.Show("Недопустимое значения для параметра а равномерного распределения времени появления машин.");
+                    }
+                    else if (!Int32.TryParse(timesSecondParTextBox.Text, out outer))
+                    {
+                        result = false;
+                        MessageBox.Show("Недопустимое значения для параметра b равномерного распределения времени появления машин.");
+                    }
+                    else if (Int32.Parse(timesFirstParTextBox.Text) < ConstrainsHolder.getConstrainsHolder().AFORTIME ||
+                                Int32.Parse(timesSecondParTextBox.Text) > ConstrainsHolder.getConstrainsHolder().BFORTIME)
+                    {
+                        result = false;
+                        MessageBox.Show("Значения параметров для равномерного распредлеения времени появления машин не могут быть меньше 1 или больше 10");
+                    }
+                    else if (Int32.Parse(timesFirstParTextBox.Text) >= Int32.Parse(timesSecondParTextBox.Text))
+                    {
+                        result = false;
+                        MessageBox.Show("Значение параметра а для равномерного распределения времени появления машин всегда должно быть меньше параметра b");
+                    }
+                }
+            }
+            else
+            {
+                result = false;
+                MessageBox.Show("Необходимо установить время появления машин");
+            }
+
+            return result;
+        }
+
+        private bool checkSpeedParamsForExceptions()
+        {
+            bool result = true;
+            int outer = 5;
+            double outerD = 1.5;
+            if (chooseSpeedTypeComboBox.SelectedIndex == 0)
+            {
+                if (!Int32.TryParse(speedTextBox.Text, out outer))
+                {
+                    MessageBox.Show("В скорости появления машин нужно ввести целое числовое значение");
+                    result = false;
+                }
+                else if (Int32.Parse(speedTextBox.Text) > ConstrainsHolder.getConstrainsHolder().MAXSPEED ||
+                            Int32.Parse(speedTextBox.Text) < ConstrainsHolder.getConstrainsHolder().MINSPEED)
+                {
+                    result = false;
+                    MessageBox.Show("При данном типе дороги скорость должна быть от " + ConstrainsHolder.getConstrainsHolder().MINSPEED 
+                                        + " до " + ConstrainsHolder.getConstrainsHolder().MAXSPEED);
+                }
+            }
+            else if (chooseSpeedTypeComboBox.SelectedIndex == 1)
+            {
+                if (chooseSpeedDistributionLawComboBox.SelectedIndex == 0)
+                {
+                    if (!Double.TryParse(speedsFirstParTextBox.Text, out outerD))
+                    {
+                        result = false;
+                        MessageBox.Show("Математическое ожидание для нормального распределения скоростей было задано неверно");
+                    }
+                    else if (!Double.TryParse(speedsSecondParTextBox.Text, out outerD))
+                    {
+                        result = false;
+                        MessageBox.Show("Дисперсия для нормального распределения скоростей была задана неверно");
+                    }
+                }
+                else if (chooseSpeedDistributionLawComboBox.SelectedIndex == 1)
+                {
+                    if (!Double.TryParse(speedsFirstParTextBox.Text, out outerD))
+                    {
+                        result = false;
+                        MessageBox.Show("Входная строка для параметра показательного распределения скоростей имела неверный формат");
+                    }
+                    else if (Double.Parse(speedsFirstParTextBox.Text) > ConstrainsHolder.getConstrainsHolder().MAXEXPPAROFSPEED ||
+                                Double.Parse(speedsFirstParTextBox.Text) < ConstrainsHolder.getConstrainsHolder().MINEXPPAROFSPEED)
+                    {
+                        result = false;
+                        MessageBox.Show("Параметр показательного распределения скоростей должен находиться в интервале [0.01;0.04]");
+                    }
+                }
+                else if (chooseSpeedDistributionLawComboBox.SelectedIndex == 2)
+                {
+                    if (!Int32.TryParse(speedsFirstParTextBox.Text, out outer))
+                    {
+                        result = false;
+                        MessageBox.Show("Входная строка для левой границы равномерного распределения имеет неверный формат");
+                    }
+                    else if (!Int32.TryParse(speedsSecondParTextBox.Text, out outer))
+                    {
+                        result = false;
+                        MessageBox.Show("Входная строка для правой границы равномерного распределения имеет неверный формат");
+                    }
+                    else if (Int32.Parse(speedsFirstParTextBox.Text) < ConstrainsHolder.getConstrainsHolder().AFORSPEED ||
+                                Int32.Parse(speedsSecondParTextBox.Text) > ConstrainsHolder.getConstrainsHolder().BFORSPEED)
+                    {
+                        result = false;
+                        MessageBox.Show("Левая граница равномерного распределения скоростей должна быть не меньше " + 
+                                            ConstrainsHolder.getConstrainsHolder().AFORSPEED + " , а правая не больше " + 
+                                                ConstrainsHolder.getConstrainsHolder().BFORSPEED);
+                    }
+                    else if (Int32.Parse(speedsFirstParTextBox.Text) > Int32.Parse(speedsSecondParTextBox.Text))
+                    {
+                        result = false;
+                        MessageBox.Show("Левая граница равномерного распределения скоростей не должна быть большей правой");
+                    }
+                }
+            }
+            else
+            {
+                result = false;
+                MessageBox.Show("Необходимо установить параметры скорости машин");
+            }
+            return result;
+        }
      
     }
 }
