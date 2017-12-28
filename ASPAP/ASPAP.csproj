@@ -47,7 +47,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Car.cs" />
+    <Compile Include="forms\AboutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="forms\AboutForm.Designer.cs">
+      <DependentUpon>AboutForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="model\Car.cs" />
     <Compile Include="constrains\ConstrainsHolder.cs" />
     <Compile Include="constrains\ConstrainsInstaller.cs" />
     <Compile Include="drawingclasses\CarDrawing.cs" />
@@ -56,11 +62,11 @@
     <Compile Include="drawingclasses\SignDrawing.cs" />
     <Compile Include="drawingclasses\StripeDrawing.cs" />
     <Compile Include="drawingclasses\TrafficLightDrawing.cs" />
-    <Compile Include="forms\Form1.cs">
+    <Compile Include="forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="forms\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="forms\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="forms\SetSignForm.cs">
       <SubType>Form</SubType>
@@ -77,7 +83,7 @@
     <Compile Include="generators\GeneratorsHolder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Sign.cs" />
+    <Compile Include="model\Sign.cs" />
     <Compile Include="generators\speedgenerators\DeterministicSpeedGenerator.cs" />
     <Compile Include="generators\speedgenerators\RandomSpeedGenerator.cs" />
     <Compile Include="generators\speedgenerators\SpeedGenerator.cs" />
@@ -87,13 +93,16 @@
     <Compile Include="random_distributions\NormalDistribution.cs" />
     <Compile Include="generators\timegenerators\RandomTimeGenerator.cs" />
     <Compile Include="generators\timegenerators\TimeGenerator.cs" />
-    <Compile Include="Road.cs" />
-    <Compile Include="random_distributions\UniformDistribution.cs" />
-    <Compile Include="Stripe.cs" />
-    <Compile Include="TrafficLight.cs" />
-    <Compile Include="Way.cs" />
-    <EmbeddedResource Include="forms\Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="model\Road.cs" />
+    <Compile Include="model\UniformDistribution.cs" />
+    <Compile Include="model\Stripe.cs" />
+    <Compile Include="model\TrafficLight.cs" />
+    <Compile Include="model\Way.cs" />
+    <EmbeddedResource Include="forms\AboutForm.resx">
+      <DependentUpon>AboutForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="forms\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="forms\SetSignForm.resx">
       <DependentUpon>SetSignForm.cs</DependentUpon>

@@ -72,7 +72,8 @@ namespace ASPAP
 
         private void оПрограммеToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("АСПАП");
+            AboutForm aboutForm = new AboutForm();
+            aboutForm.ShowDialog();
         }
 
         
@@ -120,6 +121,9 @@ namespace ASPAP
         {
             if (checkTimeParamsForException() && checkSpeedParamsForExceptions())
             {
+                labelForCarAppereanceTime.Visible = true;
+                labelForCarAppereanceValue.Visible = true;
+                
                 stopButton.Enabled = true;
                 stopButton.Visible = true;
                 switch (chooseTimeTypeComboBox.SelectedItem.ToString())
@@ -183,10 +187,15 @@ namespace ASPAP
                     }
                     tl.REDLIGHT = false;
                     trafficLightTimer.Start();
+                    labelForTrafficLightTime.Visible = true;
+                    labelForTrafficLightValue.Visible = true;
+                    labelForTrafficLightValue.Text = (trafficLightTimer.Interval / 1000).ToString();
                 }
                 generateCarTimer.Interval = (int)(GeneratorsHolder.getGeneratorsHolder().TIMESGENERATOR.getTime() * 1000);
+                labelForCarAppereanceValue.Text = (generateCarTimer.Interval  / 1000).ToString();
                 generateCarTimer.Start();
                 animationTimer.Start();
+                timerForVisibility.Start();
             }
         }
 
@@ -464,6 +473,7 @@ namespace ASPAP
             {
                 
                 trafficLightTimer.Interval = tl.REDLIGHTTIME * 1000;
+                labelForTrafficLightValue.Text = tl.REDLIGHTTIME.ToString();
                 topDraggedTrafficLightPictureBox.Image = t.REDSTATETOP;
                 bottomTrafficLightPictureBox.Image = t.REDSTATEBOTTOM;
                 tl.REDLIGHT = false;
@@ -473,6 +483,7 @@ namespace ASPAP
             {
                 RoadDrawing.getRoadDrawing().resumeCarsTraffic();
                 trafficLightTimer.Interval = tl.GREENLIGHTTIME * 1000;
+                labelForTrafficLightValue.Text = tl.GREENLIGHTTIME.ToString();
                 topDraggedTrafficLightPictureBox.Image = t.GREENSTATETOP;
                 bottomTrafficLightPictureBox.Image = t.GREENSTATEBOTTOM;
                 tl.REDLIGHT = true;
@@ -686,6 +697,19 @@ namespace ASPAP
                     RoadDrawing.getRoadDrawing().stopCars(topDraggedTrafficLightPictureBox.Width, mainPictureBox.Location.X);
                 }
             }
+            if (Road.getRoad().ROADTYPE.Equals("Тоннель"))
+            {
+                foreach (Way way in Road.getRoad().WAYS)
+                {
+                    foreach (Stripe stripe in way.stripes)
+                    {
+                        if (stripe.CARS.First != null)
+                        {
+                            firstCarSpeedNumericUpDown.Value = (decimal)stripe.CARS.First.Value.speed;
+                        }
+                    }
+                }
+            }
             foreach (StripeDrawing sd in stripeDrawings)
             {
 
@@ -780,7 +804,8 @@ namespace ASPAP
             //}
         
             randomStripe.addCar(newCar);
-            generateCarTimer.Interval = (int) (GeneratorsHolder.getGeneratorsHolder().TIMESGENERATOR.getTime() * 1000);
+            generateCarTimer.Interval = (int)(GeneratorsHolder.getGeneratorsHolder().TIMESGENERATOR.getTime() * 1000);
+            labelForCarAppereanceValue.Text = (generateCarTimer.Interval / 1000).ToString();
         }
 
         private void stopButton_Click(object sender, EventArgs e)
@@ -788,6 +813,7 @@ namespace ASPAP
             animationTimer.Stop();
             generateCarTimer.Stop();
             trafficLightTimer.Stop();
+            timerForVisibility.Stop();
             resumeButton.Enabled = true;
             resumeButton.Visible = true;
             stopButton.Enabled = false;
@@ -836,7 +862,10 @@ namespace ASPAP
             stopButton.Visible = false;
             resumeButton.Enabled = false;
             resumeButton.Visible = false;
-            
+            labelForCarAppereanceValue.Visible = false;
+            labelForCarAppereanceTime.Visible = false;
+            labelForTrafficLightTime.Visible = false;
+            labelForTrafficLightValue.Visible = false;
             
         }
 
@@ -1010,6 +1039,37 @@ namespace ASPAP
                 MessageBox.Show("Необходимо установить параметры скорости машин");
             }
             return result;
+        }
+
+        private void timerForVisibility_Tick(object sender, EventArgs e)
+        {
+            if (Road.getRoad().TRAFFICLIGHTS.Count > 0)
+            {
+                labelForTrafficLightValue.Text = (Double.Parse(labelForTrafficLightValue.Text) - 0.1).ToString();
+            }
+            labelForCarAppereanceValue.Text = (Double.Parse(labelForCarAppereanceValue.Text) - 0.1).ToString();
+
+        }
+
+        private void firstCarSpeedNumericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            foreach (Way way in Road.getRoad().WAYS)
+            {
+                foreach (Stripe stripe in way.stripes)
+                {
+                    if (stripe.CARS.Count > 0)
+                    {
+                        stripe.CARS.First.Value.speed = (int)firstCarSpeedNumericUpDown.Value;
+                        foreach (Car car in stripe.CARS)
+                        {
+                            if (car.overtaking)
+                            {
+                                car.speed = (int)firstCarSpeedNumericUpDown.Value;
+                            }
+                        }
+                    }
+                }
+            }
         }
      
     }

@@ -73,6 +73,7 @@
             this.Controls.Add(this.chooseSpeedNumericUpDown);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.okButton);
+            this.MaximizeBox = false;
             this.Name = "SetSignForm";
             this.Text = "SetSignForm";
             this.Load += new System.EventHandler(this.SetSignForm_Load);

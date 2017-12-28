@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ASPAP.random_distributions;
+using ASPAP.constrains;
 
 namespace ASPAP.generators.speedgenerators
 {
@@ -17,7 +18,17 @@ namespace ASPAP.generators.speedgenerators
 
         public override double getSpeed()
         {
-            return distribution.getRandomNumber();
+            double randomSpeed = distribution.getRandomNumber();
+
+            if (randomSpeed < ConstrainsHolder.getConstrainsHolder().MINSPEED)
+            {
+                randomSpeed = ConstrainsHolder.getConstrainsHolder().MINSPEED;
+            }
+            else if (randomSpeed > ConstrainsHolder.getConstrainsHolder().MAXSPEED)
+            {
+                randomSpeed = ConstrainsHolder.getConstrainsHolder().MAXSPEED;
+            }
+            return randomSpeed;
         }
     }
 }

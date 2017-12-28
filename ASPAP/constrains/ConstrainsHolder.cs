@@ -9,7 +9,7 @@ namespace ASPAP.constrains
     {
         private static ConstrainsHolder constrainsHolder;
         private static int maxSpeed, minSpeed;
-        private static int maxTime = 10; // в миллисекундах
+        private static int maxTime = 10; 
         private static int minTime = 1;
         private static int minRedLightTime = 5;
         private static int maxRedLightTime = 15;
@@ -104,7 +104,7 @@ namespace ASPAP.constrains
         public int BFORSPEED
         {
             get { return bForSpeed; }
-            set { bForTime = value; }
+            set { bForSpeed = value; }
         }
 
         public double MINEXPPARFORTIME

@@ -40,7 +40,6 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.справкаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.оПрограммеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.авторыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.выходToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timesSecondParTextBox = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -73,11 +72,20 @@
             this.stopButton = new System.Windows.Forms.Button();
             this.resumeButton = new System.Windows.Forms.Button();
             this.resetButton = new System.Windows.Forms.Button();
+            this.labelForCarAppereanceTime = new System.Windows.Forms.Label();
+            this.timerForVisibility = new System.Windows.Forms.Timer(this.components);
+            this.labelForTrafficLightTime = new System.Windows.Forms.Label();
+            this.labelForCarAppereanceValue = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.labelForTrafficLightValue = new System.Windows.Forms.Label();
+            this.labelForSpeedOfFirstCar = new System.Windows.Forms.Label();
+            this.firstCarSpeedNumericUpDown = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.chooseStripesCountNumericUpDown)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trafficLightPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.signPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.firstCarSpeedNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // chooseRoadTypeComboBox
@@ -170,8 +178,7 @@
             // справкаToolStripMenuItem
             // 
             this.справкаToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.оПрограммеToolStripMenuItem,
-            this.авторыToolStripMenuItem});
+            this.оПрограммеToolStripMenuItem});
             this.справкаToolStripMenuItem.Name = "справкаToolStripMenuItem";
             this.справкаToolStripMenuItem.Size = new System.Drawing.Size(65, 20);
             this.справкаToolStripMenuItem.Text = "Справка";
@@ -179,16 +186,9 @@
             // оПрограммеToolStripMenuItem
             // 
             this.оПрограммеToolStripMenuItem.Name = "оПрограммеToolStripMenuItem";
-            this.оПрограммеToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.оПрограммеToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.оПрограммеToolStripMenuItem.Text = "О программе";
             this.оПрограммеToolStripMenuItem.Click += new System.EventHandler(this.оПрограммеToolStripMenuItem_Click);
-            // 
-            // авторыToolStripMenuItem
-            // 
-            this.авторыToolStripMenuItem.Name = "авторыToolStripMenuItem";
-            this.авторыToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
-            this.авторыToolStripMenuItem.Text = "Авторы";
-            this.авторыToolStripMenuItem.Click += new System.EventHandler(this.авторыToolStripMenuItem_Click);
             // 
             // выходToolStripMenuItem
             // 
@@ -478,6 +478,95 @@
             this.resetButton.Visible = false;
             this.resetButton.Click += new System.EventHandler(this.resetButton_Click);
             // 
+            // labelForCarAppereanceTime
+            // 
+            this.labelForCarAppereanceTime.AutoSize = true;
+            this.labelForCarAppereanceTime.Location = new System.Drawing.Point(503, 531);
+            this.labelForCarAppereanceTime.Name = "labelForCarAppereanceTime";
+            this.labelForCarAppereanceTime.Size = new System.Drawing.Size(163, 13);
+            this.labelForCarAppereanceTime.TabIndex = 48;
+            this.labelForCarAppereanceTime.Text = "Время до появления машины: ";
+            this.labelForCarAppereanceTime.Visible = false;
+            // 
+            // timerForVisibility
+            // 
+            this.timerForVisibility.Tick += new System.EventHandler(this.timerForVisibility_Tick);
+            // 
+            // labelForTrafficLightTime
+            // 
+            this.labelForTrafficLightTime.AutoSize = true;
+            this.labelForTrafficLightTime.Location = new System.Drawing.Point(745, 531);
+            this.labelForTrafficLightTime.Name = "labelForTrafficLightTime";
+            this.labelForTrafficLightTime.Size = new System.Drawing.Size(142, 13);
+            this.labelForTrafficLightTime.TabIndex = 49;
+            this.labelForTrafficLightTime.Text = "Время до смены сигнала: ";
+            this.labelForTrafficLightTime.Visible = false;
+            // 
+            // labelForCarAppereanceValue
+            // 
+            this.labelForCarAppereanceValue.AutoSize = true;
+            this.labelForCarAppereanceValue.Location = new System.Drawing.Point(672, 531);
+            this.labelForCarAppereanceValue.Name = "labelForCarAppereanceValue";
+            this.labelForCarAppereanceValue.Size = new System.Drawing.Size(35, 13);
+            this.labelForCarAppereanceValue.TabIndex = 50;
+            this.labelForCarAppereanceValue.Text = "label3";
+            this.labelForCarAppereanceValue.Visible = false;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(909, 531);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(0, 13);
+            this.label4.TabIndex = 51;
+            // 
+            // labelForTrafficLightValue
+            // 
+            this.labelForTrafficLightValue.AutoSize = true;
+            this.labelForTrafficLightValue.Location = new System.Drawing.Point(893, 531);
+            this.labelForTrafficLightValue.Name = "labelForTrafficLightValue";
+            this.labelForTrafficLightValue.Size = new System.Drawing.Size(35, 13);
+            this.labelForTrafficLightValue.TabIndex = 52;
+            this.labelForTrafficLightValue.Text = "label5";
+            this.labelForTrafficLightValue.Visible = false;
+            // 
+            // labelForSpeedOfFirstCar
+            // 
+            this.labelForSpeedOfFirstCar.AutoSize = true;
+            this.labelForSpeedOfFirstCar.Location = new System.Drawing.Point(9, 202);
+            this.labelForSpeedOfFirstCar.Name = "labelForSpeedOfFirstCar";
+            this.labelForSpeedOfFirstCar.Size = new System.Drawing.Size(192, 13);
+            this.labelForSpeedOfFirstCar.TabIndex = 53;
+            this.labelForSpeedOfFirstCar.Text = "Скорость первой машины в тоннеле";
+            // 
+            // firstCarSpeedNumericUpDown
+            // 
+            this.firstCarSpeedNumericUpDown.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.firstCarSpeedNumericUpDown.Location = new System.Drawing.Point(12, 221);
+            this.firstCarSpeedNumericUpDown.Maximum = new decimal(new int[] {
+            60,
+            0,
+            0,
+            0});
+            this.firstCarSpeedNumericUpDown.Minimum = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+            this.firstCarSpeedNumericUpDown.Name = "firstCarSpeedNumericUpDown";
+            this.firstCarSpeedNumericUpDown.Size = new System.Drawing.Size(120, 20);
+            this.firstCarSpeedNumericUpDown.TabIndex = 54;
+            this.firstCarSpeedNumericUpDown.Value = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+            this.firstCarSpeedNumericUpDown.ValueChanged += new System.EventHandler(this.firstCarSpeedNumericUpDown_ValueChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -485,6 +574,13 @@
             this.AutoSize = true;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1284, 557);
+            this.Controls.Add(this.firstCarSpeedNumericUpDown);
+            this.Controls.Add(this.labelForSpeedOfFirstCar);
+            this.Controls.Add(this.labelForTrafficLightValue);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.labelForCarAppereanceValue);
+            this.Controls.Add(this.labelForTrafficLightTime);
+            this.Controls.Add(this.labelForCarAppereanceTime);
             this.Controls.Add(this.resetButton);
             this.Controls.Add(this.resumeButton);
             this.Controls.Add(this.stopButton);
@@ -527,7 +623,7 @@
             this.MaximumSize = new System.Drawing.Size(1300, 596);
             this.MinimumSize = new System.Drawing.Size(1300, 596);
             this.Name = "Form1";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "АСПАП";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
@@ -537,6 +633,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.trafficLightPictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.signPictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.firstCarSpeedNumericUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -554,7 +651,6 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem справкаToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem оПрограммеToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem авторыToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem выходToolStripMenuItem;
         private System.Windows.Forms.TextBox timesSecondParTextBox;
         private System.Windows.Forms.Label label8;
@@ -587,6 +683,14 @@
         private System.Windows.Forms.Button stopButton;
         private System.Windows.Forms.Button resumeButton;
         private System.Windows.Forms.Button resetButton;
+        private System.Windows.Forms.Label labelForCarAppereanceTime;
+        private System.Windows.Forms.Timer timerForVisibility;
+        private System.Windows.Forms.Label labelForTrafficLightTime;
+        private System.Windows.Forms.Label labelForCarAppereanceValue;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label labelForTrafficLightValue;
+        private System.Windows.Forms.Label labelForSpeedOfFirstCar;
+        private System.Windows.Forms.NumericUpDown firstCarSpeedNumericUpDown;
     }
 }
 

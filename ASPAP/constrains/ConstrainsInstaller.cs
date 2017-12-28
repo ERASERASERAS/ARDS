@@ -30,6 +30,8 @@ namespace ASPAP.constrains
                 default:
                     break;
             }
+            ConstrainsHolder.getConstrainsHolder().AFORSPEED = ConstrainsHolder.getConstrainsHolder().MINSPEED;
+            ConstrainsHolder.getConstrainsHolder().BFORSPEED = ConstrainsHolder.getConstrainsHolder().MAXSPEED;
             
         }
     }

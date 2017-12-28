@@ -21,7 +21,7 @@ namespace ASPAP
         private static LinkedList<TrafficLight> trafficLights;
         private static LinkedList<Sign> signs = new LinkedList<Sign>();
         private static LinkedList<Way> ways = new LinkedList<Way>();
-        private static Timer carAppereanceTimer;
+     
         
 
 
@@ -37,16 +37,9 @@ namespace ASPAP
             return road;
         }
 
-        public void Init()
-        {
-            carAppereanceTimer = new Timer { Interval = (int) GeneratorsHolder.getGeneratorsHolder().TIMESGENERATOR.getTime() * 1000 }; 
-            carAppereanceTimer.Tick += (sender, e) => { };
-        }
+        
 
-        public void Start()
-        {
-            carAppereanceTimer.Start();
-        }
+
 
 
 
@@ -80,11 +73,6 @@ namespace ASPAP
             set { signs = value; }
         }
 
-        public Timer CARAPPEREANCETIMER
-        {
-            get { return carAppereanceTimer; }
-            set { carAppereanceTimer = value; }
-        }
 
         public LinkedList<Way> WAYS
         {
