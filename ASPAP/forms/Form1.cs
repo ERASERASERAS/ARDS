@@ -427,6 +427,17 @@ namespace ASPAP
                         this.Controls.Remove(topDraggedTrafficLightPictureBox);
                         TrafficLightDrawing.getTrafficLightDrawing().COORDINATS.Clear();
                         Road.getRoad().TRAFFICLIGHTS.Clear();
+                        foreach (StripeDrawing sd in RoadDrawing.getRoadDrawing().STRIPEDRAWINGS)
+                        {
+                            foreach (CarDrawing cd in sd.carsDrawings)
+                            {
+                                if (cd.car.stayByTrafficLight)
+                                {
+                                    cd.car.stayByTrafficLight = false;
+                                    cd.car.speed = cd.car.initialSpeed;
+                                }
+                            }
+                        }
                         trafficLightTimer.Stop();
                         trafficLightPictureBox.Enabled = true;
                         trafficLightPictureBox.Image = Image.FromFile("..\\..\\images\\traffic_light_icon.jpg");
