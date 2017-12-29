@@ -18,7 +18,7 @@ namespace ASPAP.forms
 
         private void openManualButton_Click(object sender, EventArgs e)
         {
-
+            Help.ShowHelp(this, helpProvider1.HelpNamespace);
         }
     }
 }

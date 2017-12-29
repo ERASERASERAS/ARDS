@@ -94,7 +94,7 @@
     <Compile Include="generators\timegenerators\RandomTimeGenerator.cs" />
     <Compile Include="generators\timegenerators\TimeGenerator.cs" />
     <Compile Include="model\Road.cs" />
-    <Compile Include="model\UniformDistribution.cs" />
+    <Compile Include="random_distributions\UniformDistribution.cs" />
     <Compile Include="model\Stripe.cs" />
     <Compile Include="model\TrafficLight.cs" />
     <Compile Include="model\Way.cs" />

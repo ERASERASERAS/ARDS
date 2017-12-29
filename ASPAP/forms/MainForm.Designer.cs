@@ -186,7 +186,7 @@
             // оПрограммеToolStripMenuItem
             // 
             this.оПрограммеToolStripMenuItem.Name = "оПрограммеToolStripMenuItem";
-            this.оПрограммеToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.оПрограммеToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.оПрограммеToolStripMenuItem.Text = "О программе";
             this.оПрограммеToolStripMenuItem.Click += new System.EventHandler(this.оПрограммеToolStripMenuItem_Click);
             // 
@@ -549,11 +549,6 @@
             this.firstCarSpeedNumericUpDown.Location = new System.Drawing.Point(12, 221);
             this.firstCarSpeedNumericUpDown.Maximum = new decimal(new int[] {
             60,
-            0,
-            0,
-            0});
-            this.firstCarSpeedNumericUpDown.Minimum = new decimal(new int[] {
-            20,
             0,
             0,
             0});

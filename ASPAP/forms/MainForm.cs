@@ -704,8 +704,8 @@ namespace ASPAP
                     foreach (Stripe stripe in way.stripes)
                     {
                         if (stripe.CARS.First != null)
-                        {
-                            firstCarSpeedNumericUpDown.Value = (decimal)stripe.CARS.First.Value.speed;
+                        {   
+                            stripe.CARS.First.Value.speed = (int) firstCarSpeedNumericUpDown.Value;
                         }
                     }
                 }
@@ -1059,14 +1059,16 @@ namespace ASPAP
                 {
                     if (stripe.CARS.Count > 0)
                     {
-                        stripe.CARS.First.Value.speed = (int)firstCarSpeedNumericUpDown.Value;
+                        
                         foreach (Car car in stripe.CARS)
                         {
                             if (car.overtaking)
                             {
                                 car.speed = (int)firstCarSpeedNumericUpDown.Value;
                             }
+                            
                         }
+                        stripe.CARS.First.Value.speed = (int)firstCarSpeedNumericUpDown.Value;
                     }
                 }
             }

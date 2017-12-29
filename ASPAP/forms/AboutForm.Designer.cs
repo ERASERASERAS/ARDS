@@ -34,6 +34,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.helpProvider1 = new System.Windows.Forms.HelpProvider();
             this.SuspendLayout();
             // 
             // openManualButton
@@ -91,6 +92,10 @@
             this.label5.TabIndex = 5;
             this.label5.Text = "Самарский университет 2017";
             // 
+            // helpProvider1
+            // 
+            this.helpProvider1.HelpNamespace = "..\\\\..\\\\FAQ\\\\tru_manual.chm";
+            // 
             // AboutForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -104,7 +109,7 @@
             this.Controls.Add(this.openManualButton);
             this.MaximizeBox = false;
             this.Name = "AboutForm";
-            this.Text = "AboutForm";
+            this.Text = "О программе";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -118,5 +123,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.HelpProvider helpProvider1;
     }
 }
